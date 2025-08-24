@@ -1,0 +1,39 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: ValiTrack
+message: >-
+  Sistema de monitoramento de produtos com data próxima ao
+  vencimento: Parceria   com o Supermercado Pereira Pango
+type: software
+authors:
+  - given-names: Anna Luiza
+    family-names: Laudares Alves Pimenta Silva
+  - given-names: Camille
+    family-names: Parma Vitoria
+  - given-names: Catharina
+    family-names: Perdigão Carneiro
+  - given-names: João Victor
+    family-names: Silva Farchi
+  - given-names: Lucas Filipe
+    family-names: Santos Lima
+  - given-names: Marcus Paulo
+    family-names: Oliveira Silva
+repository-code: >-
+  https://github.com/ICEI-PUC-Minas-PMV-SI/pmv-si-2025-2-pe4-t3-valitrack
+abstract: >-
+  O presente projeto extensionista, denominado ValiTrack,
+  propõe o desenvolvimento de um sistema de monitoramento de
+  produtos com data próxima ao vencimento, o qual deve atuar
+  como uma ferramenta de suporte à gestão operacional de
+  alimentos do parceiro escolhido para a execução deste
+  projeto, o Supermercado Pereira Pango, localizado na
+  cidade de Pains - MG.
+keywords:
+  - Desperdício de alimentos
+  - Sustentabilidade
+  - Business Intelligence (BI)
+  - Validade de produtos
+  - Extensão Universitária
+date-released: '2025-08-24'
