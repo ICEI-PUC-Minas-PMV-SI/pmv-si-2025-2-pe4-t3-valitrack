@@ -27,7 +27,7 @@ BI para gestão de prazos de validade de produtos de um supermercado
 |  Etapa  | Atividades                                                                                          |
 | :-----: | --------------------------------------------------------------------------------------------------- |
 | ETAPA 1 | [Extensão Universitária]()
-| ETAPA 2 | [Escopo do projeto e Grupos de trabalho]()                                                          |
+| ETAPA 2 | [Escopo do projeto e Grupos de trabalho](ESCOPO.md)                                                          |
 | ETAPA 3 | [Diagnóstico da situação problema]()                                                               |
 | ETAPA 4 | [Arquitetura e metodologia do projeto]()                                                           |
 | ETAPA 5 | [Portal e BI - Desenvolver a modelagem de dados para o projeto BI]()                              |
