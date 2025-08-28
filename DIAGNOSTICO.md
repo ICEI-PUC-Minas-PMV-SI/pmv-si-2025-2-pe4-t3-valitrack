@@ -1,1 +1,1 @@
-
+## Diagnóstico da situação problema
