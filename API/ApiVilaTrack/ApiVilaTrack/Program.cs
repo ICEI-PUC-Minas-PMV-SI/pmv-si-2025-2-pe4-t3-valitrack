@@ -4,8 +4,14 @@ using ApiVilaTrack.Services;
 using ApiVilaTrack.Controllers;
 using ApiVilaTrack.Dtos;
 using Microsoft.AspNetCore.Routing.Constraints;
+using ApiVilaTrack.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateSlimBuilder(args);
+
+// EF Core: registrar DbContext (usa ConnectionStrings:DefaultConnection)
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register dependencies
 builder.Services.AddSingleton<UserRepository>();
@@ -49,6 +55,10 @@ public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplet
 [JsonSerializable(typeof(IEnumerable<UserDto>))]
 [JsonSerializable(typeof(Todo[]))]
 [JsonSerializable(typeof(CadastraUserDto))]
+[JsonSerializable(typeof(CreateCatalogDto))]
+[JsonSerializable(typeof(CatalogDto))]
+[JsonSerializable(typeof(IEnumerable<CatalogDto>))]
+[JsonSerializable(typeof(List<CatalogDto>))]
 internal partial class AppJsonSerializerContext : JsonSerializerContext
 {
 
