@@ -4,7 +4,7 @@ namespace ApiVilaTrack.Repositories;
 
 public class UserRepository
 {
-    private readonly List<User> _users = [];
+    private readonly List<User> _users = new();
     private int _nextId = 1;
 
     public IEnumerable<User> GetAll() => _users;
@@ -13,7 +13,7 @@ public class UserRepository
 
     public User Add(User user)
     {
-        var newUser = user with { Id = _nextId++ };
+        var newUser = new User(_nextId++, user.Name, user.Senha);
         _users.Add(newUser);
         return newUser;
     }
@@ -22,7 +22,7 @@ public class UserRepository
     {
         var index = _users.FindIndex(u => u.Id == id);
         if (index == -1) return false;
-        _users[index] = user with { Id = id };
+        _users[index] = new User(id, user.Name, user.Senha);
         return true;
     }
 
