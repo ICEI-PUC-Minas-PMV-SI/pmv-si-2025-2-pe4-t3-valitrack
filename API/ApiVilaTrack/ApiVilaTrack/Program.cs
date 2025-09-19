@@ -11,7 +11,7 @@ var builder = WebApplication.CreateSlimBuilder(args);
 builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddScoped<UserService>();
 builder.Services.Configure<GpgDto>(builder.Configuration.GetSection("Gpg"));
-builder.Services.AddSingleton<GpgService>();
+builder.Services.AddSingleton<EncryptService>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -48,6 +48,7 @@ public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplet
 [JsonSerializable(typeof(UserDto))]
 [JsonSerializable(typeof(IEnumerable<UserDto>))]
 [JsonSerializable(typeof(Todo[]))]
+[JsonSerializable(typeof(CadastraUserDto))]
 internal partial class AppJsonSerializerContext : JsonSerializerContext
 {
 

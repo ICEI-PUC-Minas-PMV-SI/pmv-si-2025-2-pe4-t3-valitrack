@@ -1,3 +1,5 @@
 namespace ApiVilaTrack.Dtos;
 
-public record UserDto(int Id, string Name, string senha);
+public record UserDto(int Id, string Name);
+
+public record CadastraUserDto(int Id, string Name, string senha);

@@ -7,9 +7,9 @@ namespace ApiVilaTrack.Controllers
     [Route("gpg")]
     public class GpgController : ControllerBase
     {
-        private readonly GpgService _gpgService;
+        private readonly EncryptService _gpgService;
 
-        public GpgController(GpgService gpgService)
+        public GpgController(EncryptService gpgService)
         {
             _gpgService = gpgService;
         }
@@ -17,15 +17,22 @@ namespace ApiVilaTrack.Controllers
         [HttpPost("encrypt")]
         public async Task<IActionResult> Encrypt([FromBody] string plainText)
         {
-            var encrypted = await _gpgService.EncryptString(plainText);
+            var encrypted = _gpgService.EncryptAES(plainText);
             return Ok(encrypted);
         }
 
         [HttpPost("decrypt")]
         public async Task<IActionResult> Decrypt([FromBody] string encryptedText)
         {
-            var decrypted = await _gpgService.DecryptString(encryptedText);
+            var decrypted = _gpgService.EncryptAES(encryptedText);
             return Ok(decrypted);
+        }
+
+        [HttpGet("generate-keys")]
+        public ActionResult GenerateKeys()
+        {
+            _gpgService.GenerateAndSaveKeys();
+            return Ok("Chaves AES-256 geradas e salvas com sucesso.");
         }
     }
 }

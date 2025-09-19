@@ -37,3 +37,42 @@ C:\desen\Nova pasta\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack
 C:\desen\Nova pasta\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\desen\Nova pasta\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ApiVilaTrack.MvcApplicationPartsAssemblyInfo.cs
 C:\desen\Nova pasta\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ApiVilaT.1B71081E.Up2Date
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ApiVilaTrack.csproj.AssemblyReference.cache
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ApiVilaTrack.GeneratedMSBuildEditorConfig.editorconfig
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ApiVilaTrack.AssemblyInfoInputs.cache
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ApiVilaTrack.AssemblyInfo.cs
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ApiVilaTrack.csproj.CoreCompileInputs.cache
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ApiVilaTrack.MvcApplicationPartsAssemblyInfo.cs
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ApiVilaTrack.MvcApplicationPartsAssemblyInfo.cache
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ApiVilaTrack.sourcelink.json
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ApiVilaTrack.dll
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\refint\ApiVilaTrack.dll
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ApiVilaTrack.pdb
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\appsettings.Development.json
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\appsettings.json
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\ApiVilaTrack.staticwebassets.endpoints.json
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\ApiVilaTrack.exe
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\ApiVilaTrack.deps.json
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\ApiVilaTrack.runtimeconfig.json
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\ApiVilaTrack.dll
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\ApiVilaTrack.pdb
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\PgpCore.dll
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\scopedcss\bundle\ApiVilaTrack.styles.css
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\staticwebassets.build.json
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\staticwebassets.development.json
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\swae.build.ex.cache
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ApiVilaT.1B71081E.Up2Date
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ApiVilaTrack.genruntimeconfig.cache
+C:\desen\testcripto\pmv-si-2025-2-pe4-t3-valitrack\API\ApiVilaTrack\ApiVilaTrack\obj\Debug\net8.0\ref\ApiVilaTrack.dll

@@ -31,14 +31,14 @@ namespace ApiVilaTrack.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserDto>> Add(UserDto userDto)
+        public async Task<ActionResult<UserDto>> Add(CadastraUserDto userDto)
         {
-            var created = await _service.Add(userDto);
+            var created = _service.Add(userDto);
             return Created($"/users/{created.Id}", created);
         }
 
         [HttpPut("{id}")]
-        public ActionResult Update(int id, UserDto userDto)
+        public ActionResult Update(int id, CadastraUserDto userDto)
         {
             return _service.Update(id, userDto) ? NoContent() : NotFound();
         }
