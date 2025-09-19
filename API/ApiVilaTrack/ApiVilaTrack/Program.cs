@@ -55,6 +55,10 @@ public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplet
 [JsonSerializable(typeof(IEnumerable<UserDto>))]
 [JsonSerializable(typeof(Todo[]))]
 [JsonSerializable(typeof(CadastraUserDto))]
+[JsonSerializable(typeof(CreateCatalogDto))]
+[JsonSerializable(typeof(CatalogDto))]
+[JsonSerializable(typeof(IEnumerable<CatalogDto>))]
+[JsonSerializable(typeof(List<CatalogDto>))]
 internal partial class AppJsonSerializerContext : JsonSerializerContext
 {
 
