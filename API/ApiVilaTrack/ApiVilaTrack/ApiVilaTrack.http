@@ -1,0 +1,11 @@
+@ApiVilaTrack_HostAddress = http://localhost:5041
+
+GET {{ApiVilaTrack_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{ApiVilaTrack_HostAddress}}/todos/1
+Accept: application/json
+
+###
