@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ApiVilaTrack")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4143f2a12b7448cb11a59406aa7b4fa22b7f70a2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+21cf180bba811123f244475973d1196869c7c7da")]
 [assembly: System.Reflection.AssemblyProductAttribute("ApiVilaTrack")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ApiVilaTrack")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
