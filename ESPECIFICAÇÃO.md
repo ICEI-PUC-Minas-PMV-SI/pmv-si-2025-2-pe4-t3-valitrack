@@ -1,5 +1,7 @@
 ## Especificação de Requisitos de Software
 
+A plataforma web ValiWeb será desenvolvida com o objetivo de permitir que o supermercado parceiro realize o cadastro e acompanhamento de produtos próximos à data de validade. Sua interface principal disponibilizará um formulário para inserção desses itens, contemplando as informações necessárias para o controle da loja. As informações registradas nessa interface serão armazenadas no banco de dados do projeto, constituindo a base fundamental para a etapa final da entrega: a geração de painéis/visualizações em Business Intelligence (BI).
+
 ### Requisitos Funcionais
 
 #### Aplicação Web (ValiWeb):
