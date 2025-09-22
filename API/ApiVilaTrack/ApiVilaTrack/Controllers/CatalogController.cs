@@ -60,4 +60,34 @@ public class CatalogController : ControllerBase
         if (c is null) return NotFound();
         return Ok(new CatalogDto(c.InternalCode, c.Name, c.Section, c.Quantity));
     }
+
+    // PUT /catalog/{code} - atualiza item por código 
+    [HttpPut("{code}")]
+    public async Task<ActionResult<CatalogDto>> Update(string code, [FromBody] UpdateCatalogDto dto)
+    {
+        var entity = await _db.Catalogs.FirstOrDefaultAsync(c => c.InternalCode == code);
+        if (entity is null) return NotFound();
+
+        entity.Name = dto.Name;
+        entity.Section = dto.Section;
+        entity.Quantity = dto.Quantity;
+
+        await _db.SaveChangesAsync();
+
+        var result = new CatalogDto(entity.InternalCode, entity.Name, entity.Section, entity.Quantity);
+        return Ok(result);
+    }
+
+    // DELETE /catalog/{code} - remove item por código
+    [HttpDelete("{code}")]
+    public async Task<IActionResult> Delete(string code)
+    {
+        var entity = await _db.Catalogs.FirstOrDefaultAsync(c => c.InternalCode == code);
+        if (entity is null) return NotFound();
+
+        _db.Catalogs.Remove(entity);
+        await _db.SaveChangesAsync();
+
+        return NoContent();
+    }
 }
