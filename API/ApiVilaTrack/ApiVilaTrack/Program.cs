@@ -26,7 +26,7 @@ builder.Services.AddSingleton<EncryptService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Registrar suporte ao par�metro regex
+// Registrar suporte ao parametro regex
 builder.Services.Configure<RouteOptions>(options =>
 {
     options.SetParameterPolicy<RegexInlineRouteConstraint>("regex");
