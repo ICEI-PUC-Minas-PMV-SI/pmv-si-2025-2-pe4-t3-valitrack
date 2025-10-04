@@ -26,7 +26,7 @@ builder.Services.AddSingleton<EncryptService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Registrar suporte ao parametro regex
+// Registrar suporte ao parâmetro regex
 builder.Services.Configure<RouteOptions>(options =>
 {
     options.SetParameterPolicy<RegexInlineRouteConstraint>("regex");
