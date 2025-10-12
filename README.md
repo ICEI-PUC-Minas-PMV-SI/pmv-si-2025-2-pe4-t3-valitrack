@@ -24,16 +24,19 @@ BI para gestão de prazos de validade de produtos de um supermercado
 
 # Planejamento
 
-|  Etapa  | Atividades                                                                                          |
+|  Itens  | Atividades                                                                                          |
 | :-----: | --------------------------------------------------------------------------------------------------- |
-| ETAPA 1 | [Extensão Universitária]()
-| ETAPA 2 | [Escopo do projeto e Grupos de trabalho](ESCOPO.md)                                                 |
-| ETAPA 3 | [Diagnóstico da situação problema](DIAGNOSTICO.md)                                                  |
-| ETAPA 4 | [Arquitetura do projeto](ARQUITETURA.md)<br>[Metodologia do projeto](METODOLOGIA.md)                |
-| ETAPA 5 | [Portal e BI - Desenvolver a modelagem de dados para o projeto BI]()                                |
-| ETAPA 6 | [Portal e BI - Integrar as fontes de dados do projeto]()                                            |
-| ETAPA 7 | [Portal e BI - Visualizar os resultados do projeto]()                                               |
-| ETAPA 8 | [Apresentação e/ou implantação da solução para a organização]()                                     |
+| ITEM 1 | [Escopo do projeto](ESCOPO.md)
+| ITEM 2 | [Diagnóstico da situação problema](DIAGNOSTICO.md)                                                  |
+| ITEM 3 | [Especificação do projeto](ESPECIFICAÇÃO.md)                                                        |
+| ITEM 4 | [Metodologia do projeto](METODOLOGIA.md)                                                            |
+| ITEM 5 | [Arquitetura do projeto](ARQUITETURA.md)                                                            |
+| ITEM 6 | [Metas do projeto](METAS.md)                                                                        |
+| ITEM 7 | [Estrutura para a realização do projeto](ESTRUTURA.md)                                              |
+| ITEM 8 | [Portal e BI - Desenvolver a modelagem de dados para o projeto BI]()                                |
+| ITEM 9 | [Portal e BI - Integrar as fontes de dados do projeto]()                                            |
+| ITEM 10 | [Portal e BI - Visualizar os resultados do projeto]()                                              |
+| ITEM 11 | [Apresentação e/ou implantação da solução para a organização]()                                    |
 
 # Código
 

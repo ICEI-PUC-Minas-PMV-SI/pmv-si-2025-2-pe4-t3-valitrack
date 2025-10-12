@@ -1,17 +1,26 @@
-using System.Text.Json.Serialization;
+using ApiVilaTrack.Controllers;
+using ApiVilaTrack.Data;
+using ApiVilaTrack.Dtos;
 using ApiVilaTrack.Repositories;
 using ApiVilaTrack.Services;
-using ApiVilaTrack.Controllers;
-using ApiVilaTrack.Dtos;
 using Microsoft.AspNetCore.Routing.Constraints;
-using ApiVilaTrack.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
+// Obter a string criptografada do appsettings.json
+var encryptedConnStrBase64 = builder.Configuration.GetConnectionString("DefaultConnection");
+var encryptedConnStrBytes = Convert.FromBase64String(encryptedConnStrBase64);
+
+// Descriptografar usando EncryptService
+var encryptService = new EncryptService();
+var decryptedConnStr = encryptService.DecryptAES(encryptedConnStrBytes);
+
 // EF Core: registrar DbContext (usa ConnectionStrings:DefaultConnection)
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(decryptedConnStr));
 
 // Register dependencies
 builder.Services.AddSingleton<UserRepository>();
