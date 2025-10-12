@@ -4,3 +4,47 @@
 *.user
 *.userosscache
 *.sln.docstates
+
+# Build e compilação .NET
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+[Tt]est[Rr]esult*/
+[Rr]elease/
+[Dd]ebug/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# Cache do MSBuild
+*.cache
+*.db
+*.bak
+*.tmp
+
+# Arquivos de configuração gerados automaticamente
+*.AssemblyInfo.cs
+*.AssemblyInfoInputs.cache
+*.GeneratedMSBuildEditorConfig.editorconfig
+
+# Configurações temporárias
+*.userprefs
+*.pidb
+*.svclog
+*.vsp
+*.ncb
+*.aps
+*.opendb
+
+# Pacotes e dependências
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+project.lock.json
+
+# Outras ferramentas
+ReSharper*/
+.idea/
