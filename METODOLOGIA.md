@@ -16,7 +16,7 @@ Após a conclusão da entrega final, contemplando tanto o website quanto os pain
 
 O modelo dimensional proposto é composto por quatro tabelas inter-relacionadas que suportam as operações de controle e análise de produtos em estoque:
 
-![banco-de-dados](/pmv-si-2025-2-pe4-t3-valitrack/img/banco%20de%20dados%20atualizado.jpg)
+![banco-de-dados](../pmv-si-2025-2-pe4-t3-valitrack/img/banco%20de%20dados%20atualizado.jpg)
 
 ---
 
@@ -112,3 +112,6 @@ Possui relacionamento um-para-muitos (1:N) com **Stock_Products**, onde cada sta
 
 **Regras de Negócio:**  
 O campo `description` deve ser único no sistema para evitar duplicidade de status com mesmo significado.
+
+
+[def]: /pmv-si-2025-2-pe4-t3-valitrack/img/banco%20de%20dados%20atualizado.jpg
