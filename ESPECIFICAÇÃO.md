@@ -47,3 +47,8 @@ A plataforma web ValiWeb será desenvolvida com o objetivo de permitir que o sup
 | **RNF07** | Em 95% das requisições, o retorno não deve exceder 3 segundos. |
 | **RNF08** | Os dados devem ser criptografados com criptografia AES (Advanced Encryption Standard). |
 | **RNF09** | O código deve estar adequadamente documentado. |
+
+### Validação com Parceiro
+Reunião com parceiro para elicitação de requisitos funcionais e não funcionais.
+
+![reunião-validação-requisitos](./img/Reunião%20com%20parceiro%2001.jpg)
