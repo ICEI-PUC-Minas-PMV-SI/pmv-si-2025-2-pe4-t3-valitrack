@@ -58,11 +58,11 @@ export default function ForgotPasswordPage() {
         </div>
       </main>
 
-      <footer className="bg-[#0b2239] text-white py-4 px-8 flex justify-end gap-8 text-sm">
-        <Link href="#" className="hover:underline">
+    <footer className="bg-[#0b2239] text-white py-4 px-8 flex justify-end gap-8 text-sm">
+        <Link href="/auth/about" className="hover:underline">
           Sobre nós
         </Link>
-        <Link href="#" className="hover:underline">
+        <Link href="/auth/contact" className="hover:underline">
           Suporte
         </Link>
       </footer>

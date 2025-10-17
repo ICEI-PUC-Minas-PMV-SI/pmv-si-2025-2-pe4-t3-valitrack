@@ -25,8 +25,7 @@ export default function ProductsPage() {
     setIsModalOpen(true);
   };
 
-  const handleOpenDetailsModal = (product: any) => {
-
+  const handleOpenDetailsModal = (product) => {
     setModalMode('details');
     setSelectedProduct(product);
     setIsModalOpen(true);
@@ -47,14 +46,14 @@ export default function ProductsPage() {
   };
 
   useEffect(() => {
-    // API logic to fetch products based on activeTab will go here
+    // A lógica da API para buscar produtos com base na activeTab irá aqui
   }, [activeTab]);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 font-sans">
-      <header className="bg-[#0b2239] text-white flex justify-between items-center px-8 py-3 shadow-md sticky top-0 z-10">
+      <header className="bg-[#0b2239] text-white flex justify-between items-center px-4 sm:px-8 py-3 shadow-md sticky top-0 z-10">
         <div className="flex items-center">
-          <img src="/Logo.svg" alt="Logo ValiWeb" className="h-19 w-auto" />
+          <img src="/Logo.svg" alt="Logo ValiWeb" className="h-12 sm:h-19 w-auto" />
         </div>
         <div className="flex items-center gap-4">
           <div className="text-right">
@@ -65,15 +64,15 @@ export default function ProductsPage() {
         </div>
       </header>
 
-      <main className="flex-1 p-8">
-        <div className="flex items-center border-b border-gray-300 mb-6">
+      <main className="flex-1 p-4 md:p-8">
+        <div className="flex items-center border-b border-gray-300 mb-6 overflow-x-auto pb-2">
           <TabButton title="Produtos Ativos" isActive={activeTab === 'ativos'} onClick={() => setActiveTab('ativos')} />
           <TabButton title="Vencidos" isActive={activeTab === 'vencidos'} onClick={() => setActiveTab('vencidos')} />
           <TabButton title="Vendidos" isActive={activeTab === 'vendidos'} onClick={() => setActiveTab('vendidos')} />
         </div>
         
-        <div className="flex justify-between items-center mb-6">
-          <div className="relative w-full max-w-sm">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+          <div className="relative w-full md:max-w-sm">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
               <HiOutlineSearch className="h-5 w-5" />
             </span>
@@ -83,18 +82,18 @@ export default function ProductsPage() {
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#0b2239]/50"
             />
           </div>
-          <div className="flex items-center gap-4">
-            <button className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-100 transition-colors font-medium text-sm">
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+            <button className="w-full sm:w-auto px-6 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-100 transition-colors font-medium text-sm">
               Filtrar
             </button>
-            <button onClick={handleOpenAddModal} className="bg-[#e67e22] text-white px-5 py-2 rounded-md font-semibold hover:bg-[#d35400] transition-colors text-sm">
+            <button onClick={handleOpenAddModal} className="w-full sm:w-auto bg-[#e67e22] text-white px-5 py-2 rounded-md font-semibold hover:bg-[#d35400] transition-colors text-sm">
               + Novo Produto
             </button>
           </div>
         </div>
         
         <div className="bg-white rounded-lg shadow-md overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-left min-w-[640px]">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
                 <Th>Produto</Th><Th>Setor</Th><Th>Validade</Th><Th>Quantidade</Th><Th>Preço Unitário</Th><Th>Status</Th><Th>Ações</Th>
@@ -126,9 +125,13 @@ export default function ProductsPage() {
         </div>
       </main>
 
-      <footer className="bg-[#0b2239] text-white mt-auto py-4 px-8 flex justify-end gap-8 text-sm">
-        <Link href="#" className="hover:underline">Sobre nós</Link>
-        <Link href="#" className="hover:underline">Suporte</Link>
+      <footer className="bg-[#0b2239] text-white py-4 px-8 flex justify-center md:justify-end gap-8 text-sm">
+        <Link href="/auth/about" className="hover:underline">
+          Sobre nós
+        </Link>
+        <Link href="/auth/contact" className="hover:underline">
+          Suporte
+        </Link>
       </footer>
 
       <ProductModal 
@@ -247,7 +250,7 @@ function ProductForm({ productData, isEditable, onCancel, onSubmit }) {
       </div>
 
       {isEditable && (
-        <div className="flex justify-end gap-3 pt-4 mt-4 border-t">
+        <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 mt-4 border-t">
           <button type="button" onClick={onCancel} className="bg-red-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-red-700">
             Cancelar
           </button>
@@ -288,7 +291,7 @@ function DeleteConfirmationModal({ isOpen, onClose, onConfirm }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-30">
-      <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-center">
+      <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-center mx-4">
         <div className="mx-auto bg-red-100 rounded-full h-12 w-12 flex items-center justify-center">
           <HiOutlineExclamation className="h-6 w-6 text-red-600" />
         </div>
@@ -296,7 +299,7 @@ function DeleteConfirmationModal({ isOpen, onClose, onConfirm }) {
         <p className="text-sm text-gray-500 mt-2">
           Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.
         </p>
-        <div className="mt-6 flex justify-center gap-3">
+        <div className="mt-6 flex flex-col sm:flex-row justify-center gap-3">
           <button onClick={onClose} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
             Cancelar
           </button>
@@ -310,7 +313,7 @@ function DeleteConfirmationModal({ isOpen, onClose, onConfirm }) {
 }
 
 const TabButton = ({ title, isActive, onClick }) => (
-  <button onClick={onClick} className={`px-1 pb-2 text-xl font-semibold transition-colors duration-300 mr-8 ${isActive ? 'border-b-2 border-[#0b2239] text-[#0b2239]' : 'text-gray-400 hover:text-gray-600'}`}>{title}</button>
+  <button onClick={onClick} className={`whitespace-nowrap px-1 pb-2 text-lg sm:text-xl font-semibold transition-colors duration-300 mr-4 sm:mr-8 ${isActive ? 'border-b-2 border-[#0b2239] text-[#0b2239]' : 'text-gray-400 hover:text-gray-600'}`}>{title}</button>
 );
 const Th = ({ children }) => (<th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">{children}</th>);
 const Td = ({ children, isExpired = false }) => (<td className={`px-6 py-4 whitespace-nowrap text-sm ${isExpired ? 'text-red-600 font-semibold' : 'text-gray-700 font-medium'}`}>{children}</td>);
