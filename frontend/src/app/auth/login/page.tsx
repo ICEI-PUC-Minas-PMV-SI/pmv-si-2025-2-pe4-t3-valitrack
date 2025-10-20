@@ -21,10 +21,12 @@ export default function LoginPage() {
     try {
       const response = await authService.login({ email, password })
       console.log('Login bem-sucedido:', response)
-      router.push('/') // redireciona pra home
+      router.push('/products') // redireciona pra home
     } catch (err: any) {
       console.error('Erro no login:', err)
-      setError(err.response?.data?.message || 'Falha no login. Tente novamente.')
+      setError(
+        err.response?.data?.message || 'Falha no login. Tente novamente.'
+      )
     } finally {
       setLoading(false)
     }
@@ -53,7 +55,11 @@ export default function LoginPage() {
       <main className="flex flex-col items-center justify-center flex-1 px-4 py-12">
         <div className="w-full max-w-md border border-[#e67e22] rounded-lg p-8 text-center shadow-lg bg-white">
           <div className="flex flex-col items-center mb-6">
-            <img src="/logo-card.svg" alt="Logo ValiWeb" className="w-48 h-auto" />
+            <img
+              src="/logo-card.svg"
+              alt="Logo ValiWeb"
+              className="w-48 h-auto"
+            />
           </div>
 
           <p className="text-gray-600 mb-8 text-lg">
@@ -66,7 +72,10 @@ export default function LoginPage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-left">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-4 text-left"
+          >
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                 <HiOutlineUser className="h-5 w-5" />
@@ -75,7 +84,7 @@ export default function LoginPage() {
                 type="email"
                 placeholder="Username"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
                 required
                 className="w-full pl-10 pr-4 py-3 border-none rounded-md bg-[#F7F7F7] focus:outline-none focus:ring-2 focus:ring-[#0b2239]/50 text-black"
               />
@@ -89,7 +98,7 @@ export default function LoginPage() {
                 type="password"
                 placeholder="Senha"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 required
                 className="w-full pl-10 pr-4 py-3 border-none rounded-md bg-[#F7F7F7] focus:outline-none focus:ring-2 focus:ring-[#0b2239]/50 text-black"
               />
