@@ -101,10 +101,10 @@ export default function ProductsPage() {
       </main>
 
       <footer className="bg-[#0b2239] text-white py-4 px-8 flex justify-center md:justify-end gap-8 text-sm">
-        <Link href="/auth/about" className="hover:underline">
+        <Link href="/about" className="hover:underline">
           Sobre nós
         </Link>
-        <Link href="/auth/contact" className="hover:underline">
+        <Link href="/contact" className="hover:underline">
           Suporte
         </Link>
       </footer>

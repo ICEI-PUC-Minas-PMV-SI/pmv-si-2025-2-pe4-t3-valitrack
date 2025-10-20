@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link'
 // Os ícones não são mais necessários nesta página, podem ser removidos se não forem usados em outro lugar
 // import { HiOutlineUser, HiOutlineLockClosed, HiOutlineMail } from "react-icons/hi";
 
@@ -24,7 +24,6 @@ export default function RegisterPage() {
       </header>
 
       <main className="flex flex-col items-center justify-center flex-1 px-4 py-12">
-       
         <div className="w-full max-w-lg border border-[#e67e22] rounded-lg p-10 text-center shadow-lg bg-white">
           <div className="flex flex-col items-center mb-6">
             <img
@@ -40,7 +39,10 @@ export default function RegisterPage() {
 
           <form className="flex flex-col gap-5 text-left">
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-800 mb-1">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-800 mb-1"
+              >
                 Username
               </label>
               <input
@@ -51,7 +53,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-800 mb-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-800 mb-1"
+              >
                 Endereço de e-mail corporativo
               </label>
               <input
@@ -62,7 +67,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-               <label htmlFor="password" className="block text-sm font-medium text-gray-800 mb-1">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-800 mb-1"
+              >
                 Senha
               </label>
               <input
@@ -81,7 +89,7 @@ export default function RegisterPage() {
           </form>
 
           <p className="text-sm text-gray-500 mt-6">
-            Já tem uma conta?{" "}
+            Já tem uma conta?{' '}
             <Link
               href="/auth/login"
               className="text-[#0b2239] hover:underline font-semibold"
@@ -93,13 +101,13 @@ export default function RegisterPage() {
       </main>
 
       <footer className="bg-[#0b2239] text-white py-4 px-8 flex justify-end gap-8 text-sm">
-        <Link href="/auth/about" className="hover:underline">
+        <Link href="/about" className="hover:underline">
           Sobre nós
         </Link>
-        <Link href="/auth/contact" className="hover:underline">
+        <Link href="/contact" className="hover:underline">
           Suporte
         </Link>
       </footer>
     </div>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import { FiTarget, FiBarChart2, FiAlertTriangle } from 'react-icons/fi';
+import Link from 'next/link'
+import { FiTarget, FiBarChart2, FiAlertTriangle } from 'react-icons/fi'
 
 export default function AboutPage() {
   return (
@@ -27,15 +27,21 @@ export default function AboutPage() {
             Transformando o controle de validade em lucro.
           </h1>
           <p className="max-w-3xl mx-auto text-lg text-gray-300">
-            A ValiTrack é a solução inteligente para o gerenciamento de estoque que evita perdas, otimiza suas operações e impulsiona seus resultados.
+            A ValiTrack é a solução inteligente para o gerenciamento de estoque
+            que evita perdas, otimiza suas operações e impulsiona seus
+            resultados.
           </p>
         </section>
 
         <section className="py-16 bg-white">
           <div className="container mx-auto px-6 text-center">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">O Fim do Desperdício Começa Aqui</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              O Fim do Desperdício Começa Aqui
+            </h2>
             <p className="max-w-3xl mx-auto text-gray-600 mb-12">
-              Milhões de reais são perdidos anualmente com produtos vencidos. Um desperdício que afeta seu estoque, suas finanças e o meio ambiente. Nós criamos a ferramenta para mudar essa realidade.
+              Milhões de reais são perdidos anualmente com produtos vencidos. Um
+              desperdício que afeta seu estoque, suas finanças e o meio
+              ambiente. Nós criamos a ferramenta para mudar essa realidade.
             </p>
             <div className="grid md:grid-cols-3 gap-8">
               <FeatureCard
@@ -60,51 +66,63 @@ export default function AboutPage() {
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
             <div className="md:w-1/2">
-              <img 
-                src="https://placehold.co/600x400/0b2239/e67e22?text=ValiTrack" 
-                alt="Equipe ValiTrack em reunião" 
+              <img
+                src="https://placehold.co/600x400/0b2239/e67e22?text=ValiTrack"
+                alt="Equipe ValiTrack em reunião"
                 className="rounded-lg shadow-xl"
               />
             </div>
             <div className="md:w-1/2">
-              <h2 className="text-3xl font-bold text-gray-800 mb-4">Nossa Jornada</h2>
+              <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                Nossa Jornada
+              </h2>
               <p className="text-gray-600 mb-4 leading-relaxed">
-                Nascido em 2025 da paixão por tecnologia e eficiência, o ValiTrack é a criação de uma equipe dedicada a resolver um dos maiores desafios do varejo. Vimos a necessidade de uma ferramenta que fosse não apenas funcional, mas também intuitiva e poderosa.
+                Nascido em 2025 da paixão por tecnologia e eficiência, o
+                ValiTrack é a criação de uma equipe dedicada a resolver um dos
+                maiores desafios do varejo. Vimos a necessidade de uma
+                ferramenta que fosse não apenas funcional, mas também intuitiva
+                e poderosa.
               </p>
               <p className="text-gray-600 leading-relaxed">
-                Atualmente em desenvolvimento, nossa plataforma está sendo construída com as mais modernas tecnologias para garantir robustez, segurança e, acima de tudo, facilidade de uso. Estamos comprometidos em entregar uma solução que faça a diferença no seu dia a dia.
+                Atualmente em desenvolvimento, nossa plataforma está sendo
+                construída com as mais modernas tecnologias para garantir
+                robustez, segurança e, acima de tudo, facilidade de uso. Estamos
+                comprometidos em entregar uma solução que faça a diferença no
+                seu dia a dia.
               </p>
             </div>
           </div>
         </section>
-        
-        <section className="bg-white py-20 text-center">
-             <div className="container mx-auto px-6">
-                <h2 className="text-3xl font-bold text-gray-800 mb-4">Pronto para otimizar seu negócio?</h2>
-                <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-                    Junte-se a nós e descubra como a gestão inteligente de validade pode revolucionar seus lucros.
-                </p>
-                <Link
-                    href="/auth/register"
-                    className="bg-[#e67e22] hover:bg-[#d35400] text-white px-8 py-3 rounded-md font-semibold text-lg transition-colors inline-block"
-                >
-                    Comece a Usar Gratuitamente
-                </Link>
-             </div>
-        </section>
 
+        <section className="bg-white py-20 text-center">
+          <div className="container mx-auto px-6">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              Pronto para otimizar seu negócio?
+            </h2>
+            <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+              Junte-se a nós e descubra como a gestão inteligente de validade
+              pode revolucionar seus lucros.
+            </p>
+            <Link
+              href="/auth/register"
+              className="bg-[#e67e22] hover:bg-[#d35400] text-white px-8 py-3 rounded-md font-semibold text-lg transition-colors inline-block"
+            >
+              Comece a Usar Gratuitamente
+            </Link>
+          </div>
+        </section>
       </main>
 
-       <footer className="bg-[#0b2239] text-white py-4 px-8 flex justify-end gap-8 text-sm">
-        <Link href="/auth/about" className="hover:underline">
+      <footer className="bg-[#0b2239] text-white py-4 px-8 flex justify-end gap-8 text-sm">
+        <Link href="/about" className="hover:underline">
           Sobre nós
         </Link>
-        <Link href="/auth/contact" className="hover:underline">
+        <Link href="/contact" className="hover:underline">
           Suporte
         </Link>
       </footer>
     </div>
-  );
+  )
 }
 
 interface FeatureCardProps {
@@ -120,5 +138,5 @@ const FeatureCard = ({ icon, title, description }: FeatureCardProps) => {
       <h3 className="text-xl font-bold text-gray-800 mb-2">{title}</h3>
       <p className="text-gray-600">{description}</p>
     </div>
-  );
-};
+  )
+}

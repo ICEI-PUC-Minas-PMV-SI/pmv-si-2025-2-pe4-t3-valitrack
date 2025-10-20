@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { HiOutlineMail } from "react-icons/hi";
+import Link from 'next/link'
+import { HiOutlineMail } from 'react-icons/hi'
 
 export default function ForgotPasswordPage() {
   return (
@@ -58,14 +58,14 @@ export default function ForgotPasswordPage() {
         </div>
       </main>
 
-    <footer className="bg-[#0b2239] text-white py-4 px-8 flex justify-end gap-8 text-sm">
-        <Link href="/auth/about" className="hover:underline">
+      <footer className="bg-[#0b2239] text-white py-4 px-8 flex justify-end gap-8 text-sm">
+        <Link href="/about" className="hover:underline">
           Sobre nós
         </Link>
-        <Link href="/auth/contact" className="hover:underline">
+        <Link href="/contact" className="hover:underline">
           Suporte
         </Link>
       </footer>
     </div>
-  );
+  )
 }
