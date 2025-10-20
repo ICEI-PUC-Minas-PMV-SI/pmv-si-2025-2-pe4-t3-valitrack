@@ -101,7 +101,13 @@ export default function SupportPage() {
   );
 }
 
-const DifferenceCard = ({ icon, title, description }) => (
+interface DifferenceCardProps {
+  icon: React.ReactNode
+  title: string
+  description: string
+}
+
+const DifferenceCard = ({ icon, title, description }: DifferenceCardProps) => (
     <div className="border-t-4 border-[#e67e22] bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
         <div className="flex items-center gap-3 mb-3">
             {icon}

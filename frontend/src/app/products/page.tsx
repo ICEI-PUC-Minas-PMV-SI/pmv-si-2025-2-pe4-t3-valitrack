@@ -11,7 +11,25 @@ import {
 } from 'react-icons/hi'
 import { FaUserCircle } from 'react-icons/fa'
 
-const sampleProduct = {
+interface Product {
+  id: number
+  name: string
+  sector: string
+  expiry: string
+  quantity: number
+  price: string
+  status: string
+  internalCode: string
+  priority: string
+  unit: string
+  costPrice: string
+  totalValue: string
+  inPromotion: boolean
+  promoQuantity: number
+  promoPrice: string
+}
+
+const sampleProduct: Product = {
   id: 1,
   name: 'Coca cola 300ml',
   sector: 'Mercearia',
@@ -30,13 +48,13 @@ const sampleProduct = {
 }
 
 export default function ProductsPage() {
-  const [activeTab, setActiveTab] = useState('ativos')
-  const [products, setProducts] = useState([sampleProduct])
-  const [loading, setLoading] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [modalMode, setModalMode] = useState('add')
-  const [selectedProduct, setSelectedProduct] = useState(null)
-  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState<string>('ativos')
+  const [products, setProducts] = useState<Product[]>([sampleProduct])
+  const [loading, setLoading] = useState<boolean>(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [modalMode, setModalMode] = useState<'add' | 'details'>('add')
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState<boolean>(false)
 
   const handleOpenAddModal = () => {
     setModalMode('add')
@@ -44,7 +62,7 @@ export default function ProductsPage() {
     setIsModalOpen(true)
   }
 
-  const handleOpenDetailsModal = product => {
+  const handleOpenDetailsModal = (product: Product) => {
     setModalMode('details')
     setSelectedProduct(product)
     setIsModalOpen(true)
@@ -212,8 +230,16 @@ export default function ProductsPage() {
   )
 }
 
-function ProductModal({ isOpen, onClose, mode, product, onDeleteClick }) {
-  const [isEditing, setIsEditing] = useState(false)
+interface ProductModalProps {
+  isOpen: boolean
+  onClose: () => void
+  mode: 'add' | 'details'
+  product: Product | null
+  onDeleteClick: () => void
+}
+
+function ProductModal({ isOpen, onClose, mode, product, onDeleteClick }: ProductModalProps) {
+  const [isEditing, setIsEditing] = useState<boolean>(false)
 
   useEffect(() => {
     if (mode === 'add') {
@@ -284,12 +310,19 @@ function ProductModal({ isOpen, onClose, mode, product, onDeleteClick }) {
   )
 }
 
-function ProductForm({ productData, isEditable, onCancel, onSubmit }) {
-  const [isPromo, setIsPromo] = useState(productData?.inPromotion || false)
+interface ProductFormProps {
+  productData: Product | null
+  isEditable: boolean
+  onCancel: () => void
+  onSubmit: (data: Record<string, FormDataEntryValue>) => void
+}
 
-  const handleSubmit = e => {
+function ProductForm({ productData, isEditable, onCancel, onSubmit }: ProductFormProps) {
+  const [isPromo, setIsPromo] = useState<boolean>(productData?.inPromotion || false)
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const formData = new FormData(e.target)
+    const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData.entries())
     onSubmit(data)
   }
@@ -381,7 +414,7 @@ function ProductForm({ productData, isEditable, onCancel, onSubmit }) {
           <input
             type="checkbox"
             checked={isPromo}
-            onChange={e => setIsPromo(e.target.checked)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setIsPromo(e.target.checked)}
             disabled={!isEditable}
             className="h-4 w-4 rounded"
           />
@@ -428,6 +461,16 @@ function ProductForm({ productData, isEditable, onCancel, onSubmit }) {
   )
 }
 
+interface InputGroupProps {
+  label: string
+  name: string
+  type?: string
+  prefix?: string
+  disabled?: boolean
+  readOnly?: boolean
+  defaultValue?: string | number
+}
+
 const InputGroup = ({
   label,
   name,
@@ -436,7 +479,7 @@ const InputGroup = ({
   disabled,
   readOnly,
   defaultValue,
-}) => (
+}: InputGroupProps) => (
   <div>
     <label htmlFor={name} className="block text-sm font-medium text-gray-700">
       {label}
@@ -460,7 +503,15 @@ const InputGroup = ({
   </div>
 )
 
-const SelectGroup = ({ label, name, disabled, defaultValue, options }) => (
+interface SelectGroupProps {
+  label: string
+  name: string
+  disabled?: boolean
+  defaultValue?: string
+  options: string[]
+}
+
+const SelectGroup = ({ label, name, disabled, defaultValue, options }: SelectGroupProps) => (
   <div>
     <label htmlFor={name} className="block text-sm font-medium text-gray-700">
       {label}
@@ -481,7 +532,13 @@ const SelectGroup = ({ label, name, disabled, defaultValue, options }) => (
   </div>
 )
 
-function DeleteConfirmationModal({ isOpen, onClose, onConfirm }) {
+interface DeleteConfirmationModalProps {
+  isOpen: boolean
+  onClose: () => void
+  onConfirm: () => void
+}
+
+function DeleteConfirmationModal({ isOpen, onClose, onConfirm }: DeleteConfirmationModalProps) {
   if (!isOpen) return null
 
   return (
@@ -516,7 +573,13 @@ function DeleteConfirmationModal({ isOpen, onClose, onConfirm }) {
   )
 }
 
-const TabButton = ({ title, isActive, onClick }) => (
+interface TabButtonProps {
+  title: string
+  isActive: boolean
+  onClick: () => void
+}
+
+const TabButton = ({ title, isActive, onClick }: TabButtonProps) => (
   <button
     onClick={onClick}
     className={`whitespace-nowrap px-1 pb-2 text-lg sm:text-xl font-semibold transition-colors duration-300 mr-4 sm:mr-8 ${isActive ? 'border-b-2 border-[#0b2239] text-[#0b2239]' : 'text-gray-400 hover:text-gray-600'}`}
@@ -524,12 +587,23 @@ const TabButton = ({ title, isActive, onClick }) => (
     {title}
   </button>
 )
-const Th = ({ children }) => (
+
+interface ThProps {
+  children: React.ReactNode
+}
+
+const Th = ({ children }: ThProps) => (
   <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
     {children}
   </th>
 )
-const Td = ({ children, isExpired = false }) => (
+
+interface TdProps {
+  children: React.ReactNode
+  isExpired?: boolean
+}
+
+const Td = ({ children, isExpired = false }: TdProps) => (
   <td
     className={`px-6 py-4 whitespace-nowrap text-sm ${isExpired ? 'text-red-600 font-semibold' : 'text-gray-700 font-medium'}`}
   >

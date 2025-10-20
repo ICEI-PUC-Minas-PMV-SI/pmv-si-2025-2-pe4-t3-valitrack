@@ -107,7 +107,13 @@ export default function AboutPage() {
   );
 }
 
-const FeatureCard = ({ icon, title, description }) => {
+interface FeatureCardProps {
+  icon: React.ReactNode
+  title: string
+  description: string
+}
+
+const FeatureCard = ({ icon, title, description }: FeatureCardProps) => {
   return (
     <div className="bg-gray-50 p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow">
       <div className="flex justify-center mb-4">{icon}</div>
