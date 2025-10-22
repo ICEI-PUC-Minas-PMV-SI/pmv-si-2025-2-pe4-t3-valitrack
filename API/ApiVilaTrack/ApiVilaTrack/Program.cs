@@ -25,6 +25,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Register dependencies
 builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<StockProductRepository>();
+builder.Services.AddScoped<StockProductService>();
+builder.Services.AddScoped<SecurityService>();
 builder.Services.Configure<GpgDto>(builder.Configuration.GetSection("Gpg"));
 builder.Services.AddSingleton<EncryptService>();
 
@@ -32,7 +35,7 @@ builder.Services.AddSingleton<EncryptService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Registrar suporte ao par‚metro regex
+// Registrar suporte ao par√¢metro regex
 builder.Services.Configure<RouteOptions>(options =>
 {
     options.SetParameterPolicy<RegexInlineRouteConstraint>("regex");
@@ -45,6 +48,9 @@ builder.Services.AddControllers()
     });
 
 var app = builder.Build();
+
+// Security middleware
+app.UseMiddleware<ApiVilaTrack.Middleware.SecurityMiddleware>();
 
 // Enable Swagger UI
 if (app.Environment.IsDevelopment())
@@ -68,6 +74,12 @@ public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplet
 [JsonSerializable(typeof(CatalogDto))]
 [JsonSerializable(typeof(IEnumerable<CatalogDto>))]
 [JsonSerializable(typeof(List<CatalogDto>))]
+[JsonSerializable(typeof(CreateStockProductDto))]
+[JsonSerializable(typeof(UpdateStockProductDto))]
+[JsonSerializable(typeof(StockProductDto))]
+[JsonSerializable(typeof(StockProductResponseDto))]
+[JsonSerializable(typeof(IEnumerable<StockProductResponseDto>))]
+[JsonSerializable(typeof(List<StockProductResponseDto>))]
 internal partial class AppJsonSerializerContext : JsonSerializerContext
 {
 
