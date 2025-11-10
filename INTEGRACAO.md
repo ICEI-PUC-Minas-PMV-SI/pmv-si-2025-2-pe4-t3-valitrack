@@ -1,4 +1,4 @@
- ### PROCESSO DE ETL
+ ## Processo de ETL
  
 O processo de ETL (Extract, Transform, Load) do sistema Valitrack tem como objetivo consolidar, tratar e disponibilizar dados operacionais provenientes do sistema ValiWeb para visualização analítica no Power BI. Esse fluxo garante a integridade, atualização e padronização dos dados apresentados nos dashboards.
 
