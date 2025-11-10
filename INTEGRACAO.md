@@ -34,33 +34,47 @@ Os jobs deste módulo são responsáveis por tratar, validar e transformar as in
 #### Método: GetAllAsync()
 Objetivo: Retornar todos os produtos em estoque.
 
+![metodos](./img/getallasync.png)
+
 #### Método: GetByIdAsync()
 Objetivo: Retornar um produto específico em estoque, identificado pelo seu ID, garantindo que os dados sejam apresentados de forma padronizada e enriquecida para consumo no Power BI.
 Método: GetByInternalCodeAsync()
 Objetivo: Filtrar produtos pelo código interno (campo usado para integração com catálogo).
 
+![metodos](./img/getbyidasync.png)
+
 #### Método: GetByStatusAsync()
 Objetivo: Retornar produtos conforme seu status operacional (Ativo, Vendido, Expirado).
+
+![metodos](./img/getbystatusasync.png)
 
 #### Método: GetExpiringProductsAsync()
 Objetivo: Retornar produtos com data de validade próxima.
 
+![metodos](./img/GetExpiringProductsAsync1.png)
+![metodos](./img/GetExpiringProductsAsync2.png)
+
 #### Método: CreateAsync()
 Objetivo: Cadastrar um novo produto no estoque.
+
+![metodos](./img/createasync1.png)
+![metodos](./img/createasync2.png)
 
 #### Método: UpdateAsync()
 Objetivo: Atualizar dados de um produto existente.
 
+![metodos](./img/updateasync1.png)
+![metodos](./img/updateasync2.png)
+
 #### Método: DeleteAsync()
 Objetivo: Excluir produto do estoque.
 
-
+![metodos](./img/deleteasync.png)
 
 #### Método: MapToResponseDto()
 Objetivo: Mapear as entidades StockProduct para StockProductResponseDto.
 
-
-
+![metodos](./img/MapToResponseDto.png)
 
 ### Módulo: Catálogo de Produtos (CatalogController)
 Os jobs deste módulo são responsáveis por gerenciar, transformar e padronizar os dados de produtos cadastrados no ValiWeb, garantindo que o catálogo armazenado no banco de dados AWS SQL permaneça íntegro, atualizado e pronto para consumo nas visualizações do Power BI.
@@ -70,16 +84,22 @@ Objetivo: Inserir um novo item no catálogo de produtos do sistema, garantindo i
 Método: GetAll()
 Objetivo: Retornar todos os itens cadastrados no catálogo de forma estruturada e limpa, consolidando os dados do banco em formato adequado para consumo no Power BI.
 
+![metodos](./img/catalogcreate.png)
+
 #### Método: GetByCode()
 Objetivo: Buscar um item específico do catálogo com base em seu código interno (InternalCode).
+
+![metodos](./img/cataloggetbycode.png)
 
 #### Método: Update()
 Objetivo: Atualizar os dados de um item existente no catálogo, mantendo integridade referencial e refletindo mudanças de estoque, seção ou nome.
 
-
+![metodos](./img/catalogupdate.png)
 
 #### Método: Delete()
 Objetivo: Remover um item do catálogo com base no seu InternalCode, garantindo consistência na base e evitando resíduos de dados inativos.
+
+![metodos](./img/catalogdelete.png)
 
 ### Módulo: Gerenciamento de Usuários (UserController / UserService)
 
@@ -88,22 +108,28 @@ Os jobs deste módulo são responsáveis por tratar, transformar e garantir a se
 #### Método: GetAll()
 Objetivo: Retornar todos os usuários cadastrados de forma simplificada, padronizando as informações em formato DTO.
 
+![metodos](./img/usergetall.png)
 
 #### Método: GetById()
 Objetivo: Buscar um usuário específico pelo seu ID, retornando dados tratados e seguros.
 
-
-
+![metodos](./img/usergetbyid1.png)
+![metodos](./img/usergetbyid2.png)
 
 #### Método: Add()
 Objetivo: Cadastrar um novo usuário no sistema, aplicando transformações de segurança e validação antes da persistência no banco.
 
+![metodos](./img/useradd.png)
+
 #### Método: Update()
 Objetivo: Atualizar informações de um usuário existente, aplicando novamente a criptografia e validações necessárias.
+
+![metodos](./img/userupdate.png)
 
 #### Método: Delete()
 Objetivo: Excluir um usuário do sistema com base no seu ID, garantindo remoção completa e consistente.
 
+![metodos](./img/userdelete.png)
 
 
 
