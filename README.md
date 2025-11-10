@@ -34,7 +34,7 @@ BI para gestão de prazos de validade de produtos de um supermercado
 | ITEM 6 | [Metas do projeto](METAS.md)                                                                        |
 | ITEM 7 | [Estrutura para a realização do projeto](ESTRUTURA.md)                                              |
 | ITEM 8 | [Portal e BI - Desenvolver a modelagem de dados para o projeto BI]()                                |
-| ITEM 9 | [Portal e BI - Integrar as fontes de dados do projeto]()                                            |
+| ITEM 9 | [Portal e BI - Integrar as fontes de dados do projeto](INTEGRACAO.md)                                            |
 | ITEM 10 | [Portal e BI - Visualizar os resultados do projeto]()                                              |
 | ITEM 11 | [Apresentação e/ou implantação da solução para a organização]()                                    |
 
