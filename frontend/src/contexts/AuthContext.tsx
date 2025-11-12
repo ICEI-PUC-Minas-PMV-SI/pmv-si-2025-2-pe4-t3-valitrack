@@ -20,7 +20,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-// Public routes that don't require authentication
 const PUBLIC_ROUTES = [
   '/auth/login',
   '/auth/register',
@@ -37,13 +36,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
 
   useEffect(() => {
-    // Check for existing token on mount
     const initAuth = async () => {
       const currentUser = await getCurrentUser()
       setUser(currentUser)
       setIsLoading(false)
 
-      // Redirect logic
       if (!currentUser && !isPublicRoute(pathname)) {
         router.push('/auth/login')
       }

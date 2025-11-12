@@ -4,7 +4,6 @@ import { useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 
-// Public routes that don't require authentication
 const PUBLIC_ROUTES = [
   '/auth/login',
   '/auth/register',
@@ -29,7 +28,6 @@ export function RouteGuard({ children }: { children: React.ReactNode }) {
     }
   }, [isAuthenticated, isLoading, pathname, router, isPublicRoute])
 
-  // Show loading spinner while checking authentication
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -38,7 +36,6 @@ export function RouteGuard({ children }: { children: React.ReactNode }) {
     )
   }
 
-  // If not authenticated and not a public route, show loading while redirecting
   if (!isAuthenticated && !isPublicRoute) {
     return (
       <div className="flex items-center justify-center min-h-screen">

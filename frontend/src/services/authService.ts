@@ -12,10 +12,9 @@ interface LoginResponse {
 
 class AuthService {
   async login(credentials: LoginCredentials): Promise<LoginResponse> {
-    // Map frontend fields to backend API contract
     const loginDto = {
-      Name: credentials.email, // Backend uses 'Name' field
-      Senha: credentials.password, // Backend uses 'Senha' field
+      Name: credentials.email,
+      Senha: credentials.password,
     }
 
     const response = await apiClient.post<LoginResponse>(

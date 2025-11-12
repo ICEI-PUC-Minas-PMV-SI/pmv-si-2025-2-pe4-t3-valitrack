@@ -1,6 +1,5 @@
 import { StatusEnum, StockProductResponse } from '@/services/stockProductService'
 
-// Legacy Product interface (kept for backward compatibility with UI components)
 export interface Product {
   id: number
   name: string
@@ -19,7 +18,6 @@ export interface Product {
   promoPrice: string
 }
 
-// Priority mapping
 export const PriorityMap = {
   1: 'Baixa',
   2: 'Média',
@@ -32,22 +30,17 @@ export const StatusMap = {
   [StatusEnum.Expirado]: 'Vencido',
 } as const
 
-/**
- * Convert backend StockProductResponse to frontend Product interface
- */
 export function mapStockProductToProduct(
   stockProduct: StockProductResponse
 ): Product {
   const isPromo = stockProduct.promotionalPrice < stockProduct.originalPrice
 
-  // Check if product is expired
   const today = new Date()
-  today.setHours(0, 0, 0, 0) // Reset time to midnight for date comparison
+  today.setHours(0, 0, 0, 0)
   const expiryDate = new Date(stockProduct.expirationDate)
   expiryDate.setHours(0, 0, 0, 0)
   const isExpired = expiryDate < today
 
-  // Auto-mark as expired if expiration date passed and not already sold
   let status = StatusMap[stockProduct.status]
   if (isExpired && stockProduct.status === StatusEnum.Ativo) {
     status = 'Vencido'

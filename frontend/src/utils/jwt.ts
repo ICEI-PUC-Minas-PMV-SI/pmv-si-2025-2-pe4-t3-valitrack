@@ -12,9 +12,6 @@ export interface TokenPayload {
   iat?: number
 }
 
-/**
- * Generate a JWT token for the authenticated user
- */
 export async function generateToken(
   payload: Omit<TokenPayload, 'exp' | 'iat'>
 ): Promise<string> {
@@ -25,9 +22,6 @@ export async function generateToken(
     .sign(JWT_SECRET)
 }
 
-/**
- * Decode and verify a JWT token
- */
 export async function verifyToken(
   token: string
 ): Promise<TokenPayload | null> {
@@ -40,9 +34,6 @@ export async function verifyToken(
   }
 }
 
-/**
- * Decode a token without verifying (useful for checking expiry)
- */
 export function decodeToken(token: string): TokenPayload | null {
   try {
     const decoded = decodeJwt(token)
@@ -53,9 +44,6 @@ export function decodeToken(token: string): TokenPayload | null {
   }
 }
 
-/**
- * Check if a token is expired
- */
 export function isTokenExpired(token: string): boolean {
   const decoded = decodeToken(token)
   if (!decoded || !decoded.exp) return true
@@ -64,18 +52,12 @@ export function isTokenExpired(token: string): boolean {
   return decoded.exp < currentTime
 }
 
-/**
- * Save token to localStorage
- */
 export function saveToken(token: string): void {
   if (typeof window !== 'undefined') {
     localStorage.setItem('auth_token', token)
   }
 }
 
-/**
- * Get token from localStorage
- */
 export function getToken(): string | null {
   if (typeof window !== 'undefined') {
     return localStorage.getItem('auth_token')
@@ -83,18 +65,12 @@ export function getToken(): string | null {
   return null
 }
 
-/**
- * Remove token from localStorage
- */
 export function removeToken(): void {
   if (typeof window !== 'undefined') {
     localStorage.removeItem('auth_token')
   }
 }
 
-/**
- * Get current authenticated user from token
- */
 export async function getCurrentUser(): Promise<TokenPayload | null> {
   const token = getToken()
   if (!token) return null

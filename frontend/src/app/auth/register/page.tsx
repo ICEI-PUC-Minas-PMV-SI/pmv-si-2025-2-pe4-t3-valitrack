@@ -25,7 +25,6 @@ export default function RegisterPage() {
       console.log('Registro bem-sucedido:', response)
       setSuccess(true)
 
-      // Automatically login the user after successful registration
       setTimeout(() => {
         login(response)
       }, 1500)
