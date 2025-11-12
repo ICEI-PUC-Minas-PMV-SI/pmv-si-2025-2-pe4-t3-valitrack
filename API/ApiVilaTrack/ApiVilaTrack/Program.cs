@@ -10,8 +10,10 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
-// Obter a string de conexão do appsettings.json
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// Prioriza variável de ambiente DATABASE_URL (Railway, produção)
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
 var useEncrypted = builder.Configuration.GetValue<bool?>("UseEncryptedConnection") ?? true;
 
 if (!string.IsNullOrEmpty(connectionString))
@@ -33,6 +35,11 @@ if (!string.IsNullOrEmpty(connectionString))
     // EF Core: registrar DbContext (usa ConnectionStrings:DefaultConnection)
     builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(decryptedConnStr));
+}
+else
+{
+    throw new InvalidOperationException(
+        "Connection string not found. Set DATABASE_URL environment variable or configure DefaultConnection in appsettings.json");
 }
 
 // Register dependencies

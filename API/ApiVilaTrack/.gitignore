@@ -47,4 +47,4 @@ project.lock.json
 
 # Outras ferramentas
 ReSharper*/
-.idea/
+.idea/appsettings.Development.json
