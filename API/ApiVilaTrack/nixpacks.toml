@@ -5,7 +5,7 @@ nixPkgs = ['dotnet-sdk_8']
 cmds = ['dotnet restore ApiVilaTrack/ApiVilaTrack.csproj']
 
 [phases.build]
-cmds = ['dotnet publish ApiVilaTrack/ApiVilaTrack.csproj -c Release -o out --no-restore']
+cmds = ['dotnet publish ApiVilaTrack/ApiVilaTrack.csproj -c Release -o out --no-restore --self-contained true -r linux-x64']
 
 [start]
 cmd = 'cd out && ./ApiVilaTrack'
