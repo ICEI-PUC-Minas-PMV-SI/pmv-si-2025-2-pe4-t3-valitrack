@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ApiVilaTrack")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+106839fc6b80c57f56d8c27066568514777dd0b7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+10ab1193c4f8f64432a6964f1c94c0fedd1cf922")]
 [assembly: System.Reflection.AssemblyProductAttribute("ApiVilaTrack")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ApiVilaTrack")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

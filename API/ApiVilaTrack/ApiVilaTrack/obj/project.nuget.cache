@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "DwJ1ZvKaUns=",
+  "dgSpecHash": "AqmYfkAC6ME=",
   "success": true,
   "projectFilePath": "/Users/marcuspaulooliveira/Documents/Projetos/puc-minas/eixo4/pmv-si-2025-2-pe4-t3-valitrack/API/ApiVilaTrack/ApiVilaTrack/ApiVilaTrack.csproj",
   "expectedPackageFiles": [
@@ -53,6 +53,10 @@
     "/Users/marcuspaulooliveira/.nuget/packages/microsoft.win32.systemevents/6.0.0/microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "/Users/marcuspaulooliveira/.nuget/packages/mono.texttemplating/3.0.0/mono.texttemplating.3.0.0.nupkg.sha512",
     "/Users/marcuspaulooliveira/.nuget/packages/pgpcore/6.5.2/pgpcore.6.5.2.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/runtime.any.system.runtime/4.3.0/runtime.any.system.runtime.4.3.0.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/runtime.any.system.text.encoding/4.3.0/runtime.any.system.text.encoding.4.3.0.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/runtime.native.system/4.3.0/runtime.native.system.4.3.0.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/runtime.unix.system.private.uri/4.3.0/runtime.unix.system.private.uri.4.3.0.nupkg.sha512",
     "/Users/marcuspaulooliveira/.nuget/packages/swashbuckle.aspnetcore/9.0.4/swashbuckle.aspnetcore.9.0.4.nupkg.sha512",
     "/Users/marcuspaulooliveira/.nuget/packages/swashbuckle.aspnetcore.swagger/9.0.4/swashbuckle.aspnetcore.swagger.9.0.4.nupkg.sha512",
     "/Users/marcuspaulooliveira/.nuget/packages/swashbuckle.aspnetcore.swaggergen/9.0.4/swashbuckle.aspnetcore.swaggergen.9.0.4.nupkg.sha512",
@@ -75,6 +79,7 @@
     "/Users/marcuspaulooliveira/.nuget/packages/system.memory/4.5.4/system.memory.4.5.4.nupkg.sha512",
     "/Users/marcuspaulooliveira/.nuget/packages/system.memory.data/1.0.2/system.memory.data.1.0.2.nupkg.sha512",
     "/Users/marcuspaulooliveira/.nuget/packages/system.numerics.vectors/4.5.0/system.numerics.vectors.4.5.0.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/system.private.uri/4.3.0/system.private.uri.4.3.0.nupkg.sha512",
     "/Users/marcuspaulooliveira/.nuget/packages/system.reflection.metadata/7.0.0/system.reflection.metadata.7.0.0.nupkg.sha512",
     "/Users/marcuspaulooliveira/.nuget/packages/system.runtime/4.3.0/system.runtime.4.3.0.nupkg.sha512",
     "/Users/marcuspaulooliveira/.nuget/packages/system.runtime.caching/6.0.0/system.runtime.caching.6.0.0.nupkg.sha512",
@@ -90,7 +95,18 @@
     "/Users/marcuspaulooliveira/.nuget/packages/system.text.json/9.0.9/system.text.json.9.0.9.nupkg.sha512",
     "/Users/marcuspaulooliveira/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512",
     "/Users/marcuspaulooliveira/.nuget/packages/system.threading.tasks.extensions/4.5.4/system.threading.tasks.extensions.4.5.4.nupkg.sha512",
-    "/Users/marcuspaulooliveira/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512"
+    "/Users/marcuspaulooliveira/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/microsoft.netcore.app.runtime.linux-x64/8.0.14/microsoft.netcore.app.runtime.linux-x64.8.0.14.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/microsoft.netcore.app.runtime.win-x64/8.0.14/microsoft.netcore.app.runtime.win-x64.8.0.14.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/8.0.14/microsoft.netcore.app.runtime.osx-x64.8.0.14.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/microsoft.netcore.app.runtime.osx-arm64/8.0.14/microsoft.netcore.app.runtime.osx-arm64.8.0.14.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/microsoft.aspnetcore.app.runtime.linux-x64/8.0.14/microsoft.aspnetcore.app.runtime.linux-x64.8.0.14.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/microsoft.aspnetcore.app.runtime.win-x64/8.0.14/microsoft.aspnetcore.app.runtime.win-x64.8.0.14.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/microsoft.aspnetcore.app.runtime.osx-x64/8.0.14/microsoft.aspnetcore.app.runtime.osx-x64.8.0.14.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/microsoft.aspnetcore.app.runtime.osx-arm64/8.0.14/microsoft.aspnetcore.app.runtime.osx-arm64.8.0.14.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.14/microsoft.netcore.app.host.linux-x64.8.0.14.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/microsoft.netcore.app.host.win-x64/8.0.14/microsoft.netcore.app.host.win-x64.8.0.14.nupkg.sha512",
+    "/Users/marcuspaulooliveira/.nuget/packages/microsoft.netcore.app.host.osx-x64/8.0.14/microsoft.netcore.app.host.osx-x64.8.0.14.nupkg.sha512"
   ],
   "logs": []
 }
