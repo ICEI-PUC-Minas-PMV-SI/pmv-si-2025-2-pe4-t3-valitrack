@@ -27,7 +27,15 @@ export async function verifyToken(
 ): Promise<TokenPayload | null> {
   try {
     const { payload } = await jwtVerify(token, JWT_SECRET)
-    return payload as TokenPayload
+    if (
+      typeof payload === 'object' &&
+      payload !== null &&
+      'id' in payload &&
+      'name' in payload
+    ) {
+      return payload as unknown as TokenPayload
+    }
+    return null
   } catch (error) {
     console.error('Invalid token:', error)
     return null
@@ -37,7 +45,15 @@ export async function verifyToken(
 export function decodeToken(token: string): TokenPayload | null {
   try {
     const decoded = decodeJwt(token)
-    return decoded as TokenPayload
+    if (
+      typeof decoded === 'object' &&
+      decoded !== null &&
+      'id' in decoded &&
+      'name' in decoded
+    ) {
+      return decoded as unknown as TokenPayload
+    }
+    return null
   } catch (error) {
     console.error('Failed to decode token:', error)
     return null
