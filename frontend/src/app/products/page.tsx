@@ -2,40 +2,31 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Product } from './types'
+import { Product, mapStockProductToProduct } from './types'
 import { ProductsHeader } from '@/components/ProductsHeader'
 import { TabButton } from '@/components/TabButton'
 import { SearchBar } from '@/components/SearchBar'
 import { ProductTable } from '@/components/ProductTable'
 import { ProductModal } from '@/components/ProductModal'
 import { DeleteConfirmationModal } from '@/components/DeleteConfirmationModal'
-
-const sampleProduct: Product = {
-  id: 1,
-  name: 'Coca cola 300ml',
-  sector: 'Mercearia',
-  expiry: '2025-10-10',
-  quantity: 35,
-  price: '4.29',
-  status: 'Ativo',
-  internalCode: '84546910',
-  priority: 'Alta',
-  unit: 'ml',
-  costPrice: '2.29',
-  totalValue: '150.15',
-  inPromotion: true,
-  promoQuantity: 35,
-  promoPrice: '3.29',
-}
+import { stockProductService, StatusEnum } from '@/services/stockProductService'
+import { catalogService } from '@/services/catalogService'
+import { useAuth } from '@/contexts/AuthContext'
+import { useRouter } from 'next/navigation'
 
 export default function ProductsPage() {
+  const { user, isAuthenticated } = useAuth()
   const [activeTab, setActiveTab] = useState<string>('ativos')
-  const [products, setProducts] = useState<Product[]>([sampleProduct])
+  const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string>('')
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [modalMode, setModalMode] = useState<'add' | 'details'>('add')
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState<boolean>(false)
+  const [searchQuery, setSearchQuery] = useState<string>('')
+
+  const router = useRouter()
 
   const handleOpenAddModal = () => {
     setModalMode('add')
@@ -57,15 +48,252 @@ export default function ProductsPage() {
     setIsDeleteConfirmOpen(true)
   }
 
-  const confirmDelete = () => {
-    console.log('Deletando produto:', selectedProduct?.id)
-    setIsDeleteConfirmOpen(false)
-    setIsModalOpen(false)
+  // Helper function to parse currency values (handles both comma and dot as decimal separator)
+  const parseCurrency = (value: string): number => {
+    if (!value) return 0
+    // Remove R$ and spaces
+    const cleaned = value.replace(/R\$\s*/g, '').trim()
+    // Replace comma with dot for decimal separator
+    const normalized = cleaned.replace(',', '.')
+    return parseFloat(normalized) || 0
   }
 
+  const handleProductSubmit = async (
+    formData: Record<string, FormDataEntryValue>
+  ) => {
+    setLoading(true)
+    setError('')
+
+    try {
+      const now = new Date()
+      const today = now.toISOString().split('T')[0] // Format: YYYY-MM-DD
+
+      if (modalMode === 'add') {
+        const internalCode = formData.internalCode as string
+
+        // Step 1: Create or update catalog entry first
+        try {
+          // Check if catalog item exists
+          const catalogExists = await catalogService.exists(internalCode)
+
+          if (!catalogExists) {
+            // Create new catalog item
+            const catalogDto = {
+              internalCode: internalCode,
+              name: formData.name as string,
+              section: formData.sector as string,
+              quantity: parseFloat(formData.quantity as string) || 0,
+            }
+            await catalogService.create(catalogDto)
+          }
+        } catch (catalogError: any) {
+          // If catalog creation fails, show error and stop
+          console.error('Erro ao criar item no catálogo:', catalogError)
+          setError('Erro ao criar produto no catálogo. Tente novamente.')
+          setLoading(false)
+          return
+        }
+
+        // Step 2: Create stock product
+        const stockDto = {
+          internalCode: internalCode,
+          expirationDate: formData.expiry as string,
+          unitType: formData.unit as string,
+          originalPrice: parseCurrency(formData.price as string),
+          promotionalPrice:
+            parseCurrency(formData.promoPrice as string) ||
+            parseCurrency(formData.price as string),
+          costPrice: parseCurrency(formData.costPrice as string),
+          priority: getPriorityValue(formData.priority as string),
+          status: StatusEnum.Ativo,
+          updatedBy: user?.name || 'Unknown',
+          controlDate: today,
+        }
+
+        await stockProductService.create(stockDto)
+      } else if (selectedProduct) {
+        // Update existing product
+
+        // Step 1: Update catalog entry (name, section, quantity)
+        try {
+          const catalogDto = {
+            name: formData.name as string,
+            section: formData.sector as string,
+            quantity: parseFloat(formData.quantity as string) || 0,
+          }
+          await catalogService.update(selectedProduct.internalCode, catalogDto)
+        } catch (catalogError: any) {
+          console.error('Erro ao atualizar item no catálogo:', catalogError)
+          setError('Erro ao atualizar produto no catálogo. Tente novamente.')
+          setLoading(false)
+          return
+        }
+
+        // Step 2: Update stock product
+        const stockDto = {
+          expirationDate: formData.expiry as string,
+          unitType: formData.unit as string,
+          originalPrice: parseCurrency(formData.price as string),
+          promotionalPrice: parseCurrency(formData.promoPrice as string),
+          costPrice: parseCurrency(formData.costPrice as string),
+          priority: getPriorityValue(formData.priority as string),
+          status: getStatusValue(formData.status as string),
+          updatedBy: user?.name || 'Unknown',
+          controlDate: today,
+        }
+
+        await stockProductService.update(selectedProduct.id, stockDto)
+      }
+
+      setIsModalOpen(false)
+      setSelectedProduct(null)
+      fetchProducts()
+    } catch (err: any) {
+      console.error('Erro ao salvar produto:', err)
+      setError(
+        err.response?.data?.message ||
+          'Erro ao salvar produto. Tente novamente.'
+      )
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const confirmDelete = async () => {
+    if (!selectedProduct) return
+
+    try {
+      // Delete from stock products first
+      await stockProductService.delete(selectedProduct.id)
+
+      // Then delete from catalog
+      await catalogService.delete(selectedProduct.internalCode)
+
+      setIsDeleteConfirmOpen(false)
+      setIsModalOpen(false)
+      // Refresh the products list
+      fetchProducts()
+    } catch (err: any) {
+      console.error('Erro ao deletar produto:', err)
+      setError('Erro ao deletar produto. Tente novamente.')
+    }
+  }
+
+  // Helper function to convert priority string to number
+  const getPriorityValue = (priority: string): number => {
+    switch (priority) {
+      case 'Baixa':
+        return 1
+      case 'Média':
+        return 2
+      case 'Alta':
+        return 3
+      default:
+        return 1
+    }
+  }
+
+  // Helper function to convert status string to enum
+  const getStatusValue = (status: string): StatusEnum => {
+    switch (status) {
+      case 'Ativo':
+        return StatusEnum.Ativo
+      case 'Vendido':
+        return StatusEnum.Vendido
+      case 'Vencido':
+      case 'Expirado':
+        return StatusEnum.Expirado
+      default:
+        return StatusEnum.Ativo
+    }
+  }
+
+  const fetchProducts = async () => {
+    setLoading(true)
+    setError('')
+
+    try {
+      let stockProducts
+
+      // If there's a search query, search by internal code
+      if (searchQuery.trim()) {
+        stockProducts = await stockProductService.getByInternalCode(
+          searchQuery.trim()
+        )
+      } else {
+        // Map tab to status enum
+        switch (activeTab) {
+          case 'ativos':
+            stockProducts = await stockProductService.getByStatus(
+              StatusEnum.Ativo
+            )
+            break
+          case 'vencidos':
+            stockProducts = await stockProductService.getByStatus(
+              StatusEnum.Expirado
+            )
+            break
+          case 'vendidos':
+            stockProducts = await stockProductService.getByStatus(
+              StatusEnum.Vendido
+            )
+            break
+          default:
+            stockProducts = await stockProductService.getAll()
+        }
+      }
+
+      // Auto-update expired products in the backend
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+
+      for (const product of stockProducts) {
+        const expiryDate = new Date(product.expirationDate)
+        expiryDate.setHours(0, 0, 0, 0)
+
+        // If product is expired and still marked as Ativo, update it to Expirado
+        if (expiryDate < today && product.status === StatusEnum.Ativo) {
+          try {
+            await stockProductService.update(product.id, {
+              status: StatusEnum.Expirado,
+            })
+            // Update the local object to reflect the change
+            product.status = StatusEnum.Expirado
+          } catch (err) {
+            console.error('Erro ao atualizar status de produto expirado:', err)
+          }
+        }
+      }
+
+      // Map backend response to frontend Product interface
+      const mappedProducts = stockProducts.map(mapStockProductToProduct)
+      setProducts(mappedProducts)
+    } catch (err: any) {
+      console.error('Erro ao buscar produtos:', err)
+      setError('Erro ao carregar produtos. Tente novamente.')
+      setProducts([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Debounce search to avoid too many API calls
   useEffect(() => {
-    // A lógica da API para buscar produtos com base na activeTab irá aqui
-  }, [activeTab])
+    // Only fetch products if user is authenticated
+    if (isAuthenticated) {
+      const timeoutId = setTimeout(() => {
+        fetchProducts()
+      }, 300) // 300ms debounce
+
+      return () => clearTimeout(timeoutId)
+    } else {
+      router.replace('/auth/login')
+    }
+  }, [activeTab, searchQuery, isAuthenticated])
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 font-sans">
@@ -91,12 +319,28 @@ export default function ProductsPage() {
             />
           </div>
 
-          <SearchBar onAddClick={handleOpenAddModal} />
-
-          <ProductTable
-            products={products}
-            onDetailsClick={handleOpenDetailsModal}
+          <SearchBar
+            onAddClick={handleOpenAddModal}
+            onSearch={handleSearch}
+            searchQuery={searchQuery}
           />
+
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+              {error}
+            </div>
+          )}
+
+          {loading ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0b2239]"></div>
+            </div>
+          ) : (
+            <ProductTable
+              products={products}
+              onDetailsClick={handleOpenDetailsModal}
+            />
+          )}
         </div>
       </main>
 
@@ -115,6 +359,7 @@ export default function ProductsPage() {
         mode={modalMode}
         product={selectedProduct}
         onDeleteClick={handleDeleteClick}
+        onSubmit={handleProductSubmit}
       />
       <DeleteConfirmationModal
         isOpen={isDeleteConfirmOpen}

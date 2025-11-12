@@ -140,7 +140,8 @@ public class StockProductService
             stockProduct.Status,
             stockProduct.StatusEntity?.Description ?? GetStatusDescription(stockProduct.Status),
             stockProduct.UpdatedBy,
-            stockProduct.ControlDate
+            stockProduct.ControlDate,
+            stockProduct.Catalog?.Quantity ?? 0
         );
     }
 

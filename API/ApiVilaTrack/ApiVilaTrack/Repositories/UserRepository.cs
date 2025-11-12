@@ -1,36 +1,51 @@
+using ApiVilaTrack.Data;
 using ApiVilaTrack.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiVilaTrack.Repositories;
 
 public class UserRepository
 {
-    private readonly List<User> _users = new();
-    private int _nextId = 1;
+    private readonly AppDbContext _context;
 
-    public IEnumerable<User> GetAll() => _users;
-
-    public User? GetById(int id) => _users.FirstOrDefault(u => u.Id == id);
-
-    public User Add(User user)
+    public UserRepository(AppDbContext context)
     {
-        var newUser = new User(_nextId++, user.Name, user.Senha);
-        _users.Add(newUser);
-        return newUser;
+        _context = context;
     }
 
-    public bool Update(int id, User user)
+    public async Task<IEnumerable<User>> GetAllAsync() => await _context.Users.ToListAsync();
+
+    public async Task<User?> GetByIdAsync(int id) => await _context.Users.FindAsync(id);
+
+    public async Task<User?> GetByNameAsync(string name) =>
+        await _context.Users.FirstOrDefaultAsync(u => u.Name == name);
+
+    public async Task<User> AddAsync(User user)
     {
-        var index = _users.FindIndex(u => u.Id == id);
-        if (index == -1) return false;
-        _users[index] = new User(id, user.Name, user.Senha);
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+        return user;
+    }
+
+    public async Task<bool> UpdateAsync(int id, User user)
+    {
+        var existing = await _context.Users.FindAsync(id);
+        if (existing is null) return false;
+
+        existing.Name = user.Name;
+        existing.Senha = user.Senha;
+
+        await _context.SaveChangesAsync();
         return true;
     }
 
-    public bool Delete(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
-        var user = GetById(id);
+        var user = await _context.Users.FindAsync(id);
         if (user is null) return false;
-        _users.Remove(user);
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
         return true;
     }
 }

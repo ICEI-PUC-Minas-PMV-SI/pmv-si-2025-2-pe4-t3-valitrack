@@ -1,20 +1,45 @@
 import apiClient from './apiClient'
 
+interface LoginCredentials {
+  email: string
+  password: string
+}
+
+interface LoginResponse {
+  id: number
+  name: string
+}
+
 class AuthService {
-  async login(credentials: { email: string; password: string }) {
-    const response = await apiClient.post('/auth/login', credentials)
+  async login(credentials: LoginCredentials): Promise<LoginResponse> {
+    // Map frontend fields to backend API contract
+    const loginDto = {
+      Name: credentials.email, // Backend uses 'Name' field
+      Senha: credentials.password, // Backend uses 'Senha' field
+    }
+
+    const response = await apiClient.post<LoginResponse>(
+      '/auth/login',
+      loginDto,
+    )
     return response.data
   }
 
-  // async register(userData: any) {
-  //   const response = await apiClient.post('/auth/register', userData)
-  //   return response.data
-  // }
+  async register(userData: {
+    name: string
+    password: string
+  }): Promise<LoginResponse> {
+    const registerDto = {
+      Name: userData.name,
+      Senha: userData.password,
+    }
 
-  // async logout() {
-  //   const response = await apiClient.post('/auth/logout')
-  //   return response.data
-  // }
+    const response = await apiClient.post<LoginResponse>(
+      '/auth/register',
+      registerDto,
+    )
+    return response.data
+  }
 }
 
 export const authService = new AuthService()

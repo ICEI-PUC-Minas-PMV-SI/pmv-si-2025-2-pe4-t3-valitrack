@@ -15,9 +15,9 @@ public class AuthService
         _gpgService = gpgService;
     }
 
-    public UserDto? Authenticate(string name, string senha)
+    public async Task<UserDto?> AuthenticateAsync(string name, string senha)
     {
-        var user = _repository.GetAll().FirstOrDefault(u => u.Name == name);
+        var user = await _repository.GetByNameAsync(name);
         if (user == null)
             return null;
 
@@ -28,11 +28,15 @@ public class AuthService
         return null;
     }
 
-    public UserDto Register(string name, string senha)
+    public async Task<UserDto> RegisterAsync(string name, string senha)
     {
         var senhaCriptografada = _gpgService.EncryptAES(senha);
-        var user = new User(0, name, Convert.ToBase64String(senhaCriptografada));
-        var created = _repository.Add(user);
+        var user = new User
+        {
+            Name = name,
+            Senha = Convert.ToBase64String(senhaCriptografada)
+        };
+        var created = await _repository.AddAsync(user);
         return new UserDto(created.Id, created.Name);
     }
 }

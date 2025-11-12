@@ -17,36 +17,36 @@ namespace ApiVilaTrack.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<UserDto>> GetAll()
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetAll()
         {
-            var users = _service.GetAll();
+            var users = await _service.GetAllAsync();
             return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<UserDto> GetById(int id)
+        public async Task<ActionResult<UserDto>> GetById(int id)
         {
-            var user = _service.GetById(id);
+            var user = await _service.GetByIdAsync(id);
             return user is not null ? Ok(user) : NotFound();
         }
 
         [HttpPost]
         public async Task<ActionResult<UserDto>> Add(CadastraUserDto userDto)
         {
-            var created = _service.Add(userDto);
+            var created = await _service.AddAsync(userDto);
             return Created($"/users/{created.Id}", created);
         }
 
         [HttpPut("{id}")]
-        public ActionResult Update(int id, CadastraUserDto userDto)
+        public async Task<ActionResult> Update(int id, CadastraUserDto userDto)
         {
-            return _service.Update(id, userDto) ? NoContent() : NotFound();
+            return await _service.UpdateAsync(id, userDto) ? NoContent() : NotFound();
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return _service.Delete(id) ? NoContent() : NotFound();
+            return await _service.DeleteAsync(id) ? NoContent() : NotFound();
         }
     }
 }

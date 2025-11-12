@@ -10,21 +10,35 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
-// Obter a string criptografada do appsettings.json
-var encryptedConnStrBase64 = builder.Configuration.GetConnectionString("DefaultConnection");
-var encryptedConnStrBytes = Convert.FromBase64String(encryptedConnStrBase64);
+// Obter a string de conexão do appsettings.json
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var useEncrypted = builder.Configuration.GetValue<bool?>("UseEncryptedConnection") ?? true;
 
-// Descriptografar usando EncryptService
-var encryptService = new EncryptService();
-var decryptedConnStr = encryptService.DecryptAES(encryptedConnStrBytes);
+if (!string.IsNullOrEmpty(connectionString))
+{
+    string decryptedConnStr;
+    if (useEncrypted)
+    {
+        // Descriptografar usando EncryptService
+        var encryptedConnStrBytes = Convert.FromBase64String(connectionString);
+        var encryptService = new EncryptService();
+        decryptedConnStr = encryptService.DecryptAES(encryptedConnStrBytes);
+    }
+    else
+    {
+        // Usar connection string sem criptografia (desenvolvimento)
+        decryptedConnStr = connectionString;
+    }
 
-// EF Core: registrar DbContext (usa ConnectionStrings:DefaultConnection)
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(decryptedConnStr));
+    // EF Core: registrar DbContext (usa ConnectionStrings:DefaultConnection)
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlServer(decryptedConnStr));
+}
 
 // Register dependencies
-builder.Services.AddSingleton<UserRepository>();
+builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<StockProductRepository>();
 builder.Services.AddScoped<StockProductService>();
 builder.Services.AddScoped<SecurityService>();
@@ -47,7 +61,21 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
     });
 
+// Add CORS support
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
+
+// Use CORS
+app.UseCors("AllowFrontend");
 
 // Security middleware
 app.UseMiddleware<ApiVilaTrack.Middleware.SecurityMiddleware>();
@@ -69,6 +97,7 @@ public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplet
 [JsonSerializable(typeof(UserDto))]
 [JsonSerializable(typeof(IEnumerable<UserDto>))]
 [JsonSerializable(typeof(Todo[]))]
+[JsonSerializable(typeof(LoginDto))]
 [JsonSerializable(typeof(CadastraUserDto))]
 [JsonSerializable(typeof(CreateCatalogDto))]
 [JsonSerializable(typeof(CatalogDto))]

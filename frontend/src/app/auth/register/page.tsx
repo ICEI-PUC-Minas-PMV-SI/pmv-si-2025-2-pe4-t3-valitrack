@@ -1,8 +1,44 @@
+'use client'
+
+import { useState, FormEvent } from 'react'
 import Link from 'next/link'
-// Os ícones não são mais necessários nesta página, podem ser removidos se não forem usados em outro lugar
-// import { HiOutlineUser, HiOutlineLockClosed, HiOutlineMail } from "react-icons/hi";
+import { authService } from '@/services'
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function RegisterPage() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState(false)
+  const { login } = useAuth()
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+    setSuccess(false)
+
+    try {
+      const response = await authService.register({ name, password })
+      console.log('Registro bem-sucedido:', response)
+      setSuccess(true)
+
+      // Automatically login the user after successful registration
+      setTimeout(() => {
+        login(response)
+      }, 1500)
+    } catch (err: any) {
+      console.error('Erro no registro:', err)
+      setError(
+        err.response?.data?.message || 'Falha ao criar conta. Tente novamente.'
+      )
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="flex flex-col min-h-screen font-sans bg-gray-50">
       <header className="bg-[#0b2239] text-white flex justify-between items-center px-8 py-3 shadow-md">
@@ -37,7 +73,19 @@ export default function RegisterPage() {
             Preencha as informações abaixo para criar sua conta
           </p>
 
-          <form className="flex flex-col gap-5 text-left">
+          {error && (
+            <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 mb-4 rounded">
+              {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="bg-green-50 border border-green-400 text-green-700 px-4 py-3 mb-4 rounded">
+              Conta criada com sucesso! Redirecionando...
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5 text-left">
             <div>
               <label
                 htmlFor="username"
@@ -48,7 +96,10 @@ export default function RegisterPage() {
               <input
                 id="username"
                 type="text"
-                className="w-full px-4 py-3 border border-gray-200 rounded-md bg-[#F7F7F7] focus:outline-none focus:ring-2 focus:ring-[#0b2239]/50"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                required
+                className="w-full px-4 py-3 border border-gray-200 rounded-md bg-[#F7F7F7] focus:outline-none focus:ring-2 focus:ring-[#0b2239]/50 text-black"
               />
             </div>
 
@@ -62,7 +113,10 @@ export default function RegisterPage() {
               <input
                 id="email"
                 type="email"
-                className="w-full px-4 py-3 border border-gray-200 rounded-md bg-[#F7F7F7] focus:outline-none focus:ring-2 focus:ring-[#0b2239]/50"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+                className="w-full px-4 py-3 border border-gray-200 rounded-md bg-[#F7F7F7] focus:outline-none focus:ring-2 focus:ring-[#0b2239]/50 text-black"
               />
             </div>
 
@@ -76,15 +130,19 @@ export default function RegisterPage() {
               <input
                 id="password"
                 type="password"
-                className="w-full px-4 py-3 border border-gray-200 rounded-md bg-[#F7F7F7] focus:outline-none focus:ring-2 focus:ring-[#0b2239]/50"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+                className="w-full px-4 py-3 border border-gray-200 rounded-md bg-[#F7F7F7] focus:outline-none focus:ring-2 focus:ring-[#0b2239]/50 text-black"
               />
             </div>
 
             <button
               type="submit"
-              className="bg-[#0b2239] text-white py-3 rounded-md font-semibold hover:bg-[#102d4d] transition-colors mt-4 text-base"
+              disabled={loading}
+              className="bg-[#0b2239] text-white py-3 rounded-md font-semibold hover:bg-[#102d4d] transition-colors mt-4 text-base disabled:opacity-60"
             >
-              Criar Conta
+              {loading ? 'Criando conta...' : 'Criar Conta'}
             </button>
           </form>
 

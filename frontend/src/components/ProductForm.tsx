@@ -99,7 +99,7 @@ export function ProductForm({ productData, isEditable, onCancel, onSubmit }: Pro
           name="status"
           defaultValue={productData?.status}
           disabled={!isEditable}
-          options={['Ativo', 'Inativo']}
+          options={['Ativo', 'Vendido', 'Vencido']}
         />
       </div>
 

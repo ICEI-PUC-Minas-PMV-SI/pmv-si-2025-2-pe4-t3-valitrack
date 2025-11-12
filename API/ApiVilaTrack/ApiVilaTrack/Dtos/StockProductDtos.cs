@@ -38,7 +38,6 @@ public record CreateStockProductDto(
     
     [Required(ErrorMessage = "Usuário que atualizou é obrigatório")]
     [StringLength(100, ErrorMessage = "Nome do usuário deve ter no máximo 100 caracteres")]
-    [RegularExpression(@"^[A-Za-z0-9\s._-]+$", ErrorMessage = "Nome do usuário deve conter apenas letras, números, espaços, pontos, hífen e underscore")]
     string UpdatedBy,
     
     [Required(ErrorMessage = "Data de controle é obrigatória")]
@@ -65,9 +64,8 @@ public record UpdateStockProductDto(
     int? Priority,
     
     StatusEnum? Status,
-    
+
     [StringLength(100, ErrorMessage = "Nome do usuário deve ter no máximo 100 caracteres")]
-    [RegularExpression(@"^[A-Za-z0-9\s._-]+$", ErrorMessage = "Nome do usuário deve conter apenas letras, números, espaços, pontos, hífen e underscore")]
     string? UpdatedBy,
     
     DateOnly? ControlDate
@@ -101,5 +99,6 @@ public record StockProductResponseDto(
     StatusEnum Status,
     string StatusDescription,
     string UpdatedBy,
-    DateOnly ControlDate
+    DateOnly ControlDate,
+    float Quantity
 );

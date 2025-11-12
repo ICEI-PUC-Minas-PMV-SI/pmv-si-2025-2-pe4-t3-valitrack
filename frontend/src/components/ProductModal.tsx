@@ -11,6 +11,7 @@ interface ProductModalProps {
   mode: 'add' | 'details'
   product: Product | null
   onDeleteClick: () => void
+  onSubmit: (formData: Record<string, FormDataEntryValue>) => void
 }
 
 export function ProductModal({
@@ -19,6 +20,7 @@ export function ProductModal({
   mode,
   product,
   onDeleteClick,
+  onSubmit,
 }: ProductModalProps) {
   const [isEditing, setIsEditing] = useState<boolean>(false)
 
@@ -80,10 +82,7 @@ export function ProductModal({
             productData={product}
             isEditable={isEditing}
             onCancel={handleCancelEdit}
-            onSubmit={formData => {
-              console.log('Salvando dados:', formData)
-              onClose()
-            }}
+            onSubmit={onSubmit}
           />
         </div>
       </div>

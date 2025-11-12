@@ -12,11 +12,12 @@ export function ProductTable({ products, onDetailsClick }: ProductTableProps) {
       <table className="w-full text-left min-w-[640px]">
         <thead className="bg-gray-50 border-b border-gray-200">
           <tr>
+            <Th>Código Interno</Th>
             <Th>Produto</Th>
             <Th>Setor</Th>
             <Th>Validade</Th>
             <Th>Quantidade</Th>
-            <Th>Preço Unitário</Th>
+            <Th>Preço</Th>
             <Th>Status</Th>
             <Th>Ações</Th>
           </tr>
@@ -27,15 +28,33 @@ export function ProductTable({ products, onDetailsClick }: ProductTableProps) {
               key={product.id}
               className="border-b border-gray-200 last:border-b-0 hover:bg-gray-50/50"
             >
+              <Td>{product.internalCode}</Td>
               <Td>{product.name}</Td>
               <Td>{product.sector}</Td>
-              <Td isExpired={product.status === 'Vencido'}>
+              <Td isExpired={product.status === 'Vencido' || product.status === 'Expirado'}>
                 {product.expiry.split('-').reverse().join('/')}
               </Td>
               <Td>{product.quantity}</Td>
-              <Td>R$ {product.price}</Td>
               <Td>
-                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                {product.inPromotion ? (
+                  <div className="flex flex-col">
+                    <span className="text-red-600 font-semibold">R$ {product.promoPrice}</span>
+                    <span className="text-gray-400 text-xs line-through">R$ {product.price}</span>
+                  </div>
+                ) : (
+                  <span>R$ {product.price}</span>
+                )}
+              </Td>
+              <Td>
+                <span
+                  className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                    product.status === 'Ativo'
+                      ? 'bg-green-100 text-green-800'
+                      : product.status === 'Vendido'
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-red-100 text-red-800'
+                  }`}
+                >
                   {product.status}
                 </span>
               </Td>

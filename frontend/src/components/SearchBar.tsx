@@ -2,9 +2,15 @@ import { HiOutlineSearch } from 'react-icons/hi'
 
 interface SearchBarProps {
   onAddClick: () => void
+  onSearch: (query: string) => void
+  searchQuery: string
 }
 
-export function SearchBar({ onAddClick }: SearchBarProps) {
+export function SearchBar({
+  onAddClick,
+  onSearch,
+  searchQuery,
+}: SearchBarProps) {
   return (
     <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
       <div className="relative w-full md:max-w-sm">
@@ -13,14 +19,13 @@ export function SearchBar({ onAddClick }: SearchBarProps) {
         </span>
         <input
           type="text"
-          placeholder="Buscar produto..."
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#0b2239]/50"
+          placeholder="Buscar por código ou nome do produto..."
+          value={searchQuery}
+          onChange={e => onSearch(e.target.value)}
+          className="w-full pl-10 pr-4 text-gray-800 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#0b2239]/50"
         />
       </div>
       <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
-        <button className="w-full sm:w-auto px-6 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-100 transition-colors font-medium text-sm">
-          Filtrar
-        </button>
         <button
           onClick={onAddClick}
           className="w-full sm:w-auto bg-[#e67e22] text-white px-5 py-2 rounded-md font-semibold hover:bg-[#d35400] transition-colors text-sm"

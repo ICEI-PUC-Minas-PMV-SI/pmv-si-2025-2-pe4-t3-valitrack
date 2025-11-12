@@ -1,17 +1,17 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { HiOutlineUser, HiOutlineLockClosed } from 'react-icons/hi'
-import { authService } from '@/services' // garante que esse serviço existe
+import { authService } from '@/services'
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const router = useRouter()
+  const { login } = useAuth()
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -21,7 +21,9 @@ export default function LoginPage() {
     try {
       const response = await authService.login({ email, password })
       console.log('Login bem-sucedido:', response)
-      router.push('/products') // redireciona pra home
+
+      // Use auth context to handle login and JWT token generation
+      login(response)
     } catch (err: any) {
       console.error('Erro no login:', err)
       setError(
@@ -81,7 +83,7 @@ export default function LoginPage() {
                 <HiOutlineUser className="h-5 w-5" />
               </span>
               <input
-                type="email"
+                type="text"
                 placeholder="Username"
                 value={email}
                 onChange={e => setEmail(e.target.value)}

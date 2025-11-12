@@ -33,6 +33,10 @@ class ApiClient {
     return this.client.delete<T>(url, config)
   }
 
+  async head<T = any>(url: string, config?: AxiosRequestConfig) {
+    return this.client.head<T>(url, config)
+  }
+
   getInstance(): AxiosInstance {
     return this.client
   }

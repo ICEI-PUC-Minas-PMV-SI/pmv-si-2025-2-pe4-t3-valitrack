@@ -15,29 +15,36 @@ public class UserService
         _gpgService = gpgService;
     }
 
-    public IEnumerable<UserDto> GetAll() =>
-        _repository.GetAll().Select(u => new UserDto(u.Id, u.Name));
-
-    public UserDto? GetById(int id)
+    public async Task<IEnumerable<UserDto>> GetAllAsync()
     {
-        var user = _repository.GetById(id);
+        var users = await _repository.GetAllAsync();
+        return users.Select(u => new UserDto(u.Id, u.Name));
+    }
+
+    public async Task<UserDto?> GetByIdAsync(int id)
+    {
+        var user = await _repository.GetByIdAsync(id);
         return user is null ? null : new UserDto(user.Id, user.Name);
     }
 
-    public UserDto Add(CadastraUserDto userDto)
+    public async Task<UserDto> AddAsync(CadastraUserDto userDto)
     {
         var senhaCriptografada = _gpgService.EncryptAES(userDto.senha);
-        var user = new User(userDto.Id, userDto.Name, Convert.ToBase64String(senhaCriptografada));
-        var created = _repository.Add(user);
+        var user = new User
+        {
+            Name = userDto.Name,
+            Senha = Convert.ToBase64String(senhaCriptografada)
+        };
+        var created = await _repository.AddAsync(user);
         return new UserDto(created.Id, created.Name);
     }
 
-    public bool Update(int id, CadastraUserDto userDto)
+    public async Task<bool> UpdateAsync(int id, CadastraUserDto userDto)
     {
         var senhaCriptografada = _gpgService.EncryptAES(userDto.senha);
         var user = new User(id, userDto.Name, Convert.ToBase64String(senhaCriptografada));
-        return _repository.Update(id, user);
+        return await _repository.UpdateAsync(id, user);
     }
 
-    public bool Delete(int id) => _repository.Delete(id);
+    public async Task<bool> DeleteAsync(int id) => await _repository.DeleteAsync(id);
 }

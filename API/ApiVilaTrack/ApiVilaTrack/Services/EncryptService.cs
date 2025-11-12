@@ -13,16 +13,19 @@ namespace ApiVilaTrack.Services
 
         public EncryptService()
         {
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
                 .Build();
 
             _publicKeyPath = config["Gpg:PublicKeyPath"];
             _privateKeyPath = config["Gpg:PrivateKeyPath"];
         }
 
-        // Gera par de chaves AES (simétrica)
+        // Gera par de chaves AES (simï¿½trica)
         public void GenerateAndSaveKeys()
         {
             using (var aes = Aes.Create())
@@ -32,20 +35,20 @@ namespace ApiVilaTrack.Services
                 aes.GenerateKey();
                 aes.GenerateIV();
 
-                // Salva chave e IV em arquivos binários
+                // Salva chave e IV em arquivos binï¿½rios
                 File.WriteAllBytes(_publicKeyPath, aes.Key);
                 File.WriteAllBytes(_privateKeyPath, aes.IV);
             }
         }
 
-        // Criptografa texto com AES e chave simétrica já existente
+        // Criptografa texto com AES e chave simï¿½trica jï¿½ existente
         public byte[] EncryptAES(string plainText)
         {
             try
             {
                 using (var aes = Aes.Create())
                 {
-                    // Lê chave e IV dos arquivos
+                    // Lï¿½ chave e IV dos arquivos
                     aes.Key = File.ReadAllBytes(_publicKeyPath);
                     aes.IV = File.ReadAllBytes(_privateKeyPath);
 
