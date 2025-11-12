@@ -10,36 +10,67 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
-// Prioriza variável de ambiente DATABASE_URL (Railway, produção)
-var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
-    ?? builder.Configuration.GetConnectionString("DefaultConnection");
-
-var useEncrypted = builder.Configuration.GetValue<bool?>("UseEncryptedConnection") ?? true;
-
-if (!string.IsNullOrEmpty(connectionString))
+try
 {
-    string decryptedConnStr;
-    if (useEncrypted)
+    Console.WriteLine("=== Starting ValiTrack API ===");
+
+    var envDatabaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+    var configConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    var connectionString = envDatabaseUrl ?? configConnectionString;
+
+    Console.WriteLine($"DATABASE_URL environment variable: {(envDatabaseUrl != null ? "SET" : "NOT SET")}");
+    Console.WriteLine($"Config connection string: {(configConnectionString != null ? "SET" : "NOT SET")}");
+
+    if (string.IsNullOrEmpty(connectionString))
     {
-        // Descriptografar usando EncryptService
-        var encryptedConnStrBytes = Convert.FromBase64String(connectionString);
-        var encryptService = new EncryptService();
-        decryptedConnStr = encryptService.DecryptAES(encryptedConnStrBytes);
+        throw new InvalidOperationException(
+            "Connection string not found. Set DATABASE_URL environment variable or configure DefaultConnection in appsettings.json");
+    }
+
+    var useEncrypted = builder.Configuration.GetValue<bool?>("UseEncryptedConnection") ?? false;
+
+    if (envDatabaseUrl != null)
+    {
+        useEncrypted = false;
+        Console.WriteLine("Using DATABASE_URL from environment (plain text)");
     }
     else
     {
-        // Usar connection string sem criptografia (desenvolvimento)
-        decryptedConnStr = connectionString;
+        Console.WriteLine($"UseEncryptedConnection: {useEncrypted}");
     }
 
-    // EF Core: registrar DbContext (usa ConnectionStrings:DefaultConnection)
+    string decryptedConnStr;
+    if (useEncrypted)
+    {
+        Console.WriteLine("Decrypting connection string...");
+        var encryptedConnStrBytes = Convert.FromBase64String(connectionString);
+        var encryptService = new EncryptService();
+        decryptedConnStr = encryptService.DecryptAES(encryptedConnStrBytes);
+        Console.WriteLine("Connection string decrypted successfully");
+    }
+    else
+    {
+        decryptedConnStr = connectionString;
+        Console.WriteLine("Using plain text connection string");
+    }
+
     builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(decryptedConnStr));
+
+    Console.WriteLine("DbContext configured successfully");
 }
-else
+catch (Exception ex)
 {
-    throw new InvalidOperationException(
-        "Connection string not found. Set DATABASE_URL environment variable or configure DefaultConnection in appsettings.json");
+    Console.WriteLine("=== FATAL ERROR DURING STARTUP ===");
+    Console.WriteLine($"Exception Type: {ex.GetType().FullName}");
+    Console.WriteLine($"Message: {ex.Message}");
+    Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+    if (ex.InnerException != null)
+    {
+        Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+        Console.WriteLine($"Inner Stack Trace: {ex.InnerException.StackTrace}");
+    }
+    throw;
 }
 
 // Register dependencies
