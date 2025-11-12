@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ['dotnet-sdk_8']
+
+[phases.install]
+cmds = ['dotnet restore ApiVilaTrack/ApiVilaTrack.csproj']
+
+[phases.build]
+cmds = ['dotnet publish ApiVilaTrack/ApiVilaTrack.csproj -c Release -o out --no-restore']
+
+[start]
+cmd = 'cd out && ./ApiVilaTrack'

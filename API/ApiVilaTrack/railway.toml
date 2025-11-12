@@ -1,0 +1,8 @@
+[build]
+builder = "nixpacks"
+buildCommand = "dotnet restore ApiVilaTrack/ApiVilaTrack.csproj && dotnet publish ApiVilaTrack/ApiVilaTrack.csproj -c Release -o out"
+
+[deploy]
+startCommand = "cd out && dotnet ApiVilaTrack.dll"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
