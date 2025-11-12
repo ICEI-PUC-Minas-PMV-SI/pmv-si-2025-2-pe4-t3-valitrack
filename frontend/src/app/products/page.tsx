@@ -48,12 +48,9 @@ export default function ProductsPage() {
     setIsDeleteConfirmOpen(true)
   }
 
-  // Helper function to parse currency values (handles both comma and dot as decimal separator)
   const parseCurrency = (value: string): number => {
     if (!value) return 0
-    // Remove R$ and spaces
     const cleaned = value.replace(/R\$\s*/g, '').trim()
-    // Replace comma with dot for decimal separator
     const normalized = cleaned.replace(',', '.')
     return parseFloat(normalized) || 0
   }
@@ -66,18 +63,15 @@ export default function ProductsPage() {
 
     try {
       const now = new Date()
-      const today = now.toISOString().split('T')[0] // Format: YYYY-MM-DD
+      const today = now.toISOString().split('T')[0]
 
       if (modalMode === 'add') {
         const internalCode = formData.internalCode as string
 
-        // Step 1: Create or update catalog entry first
         try {
-          // Check if catalog item exists
           const catalogExists = await catalogService.exists(internalCode)
 
           if (!catalogExists) {
-            // Create new catalog item
             const catalogDto = {
               internalCode: internalCode,
               name: formData.name as string,
@@ -87,14 +81,11 @@ export default function ProductsPage() {
             await catalogService.create(catalogDto)
           }
         } catch (catalogError: any) {
-          // If catalog creation fails, show error and stop
           console.error('Erro ao criar item no catálogo:', catalogError)
           setError('Erro ao criar produto no catálogo. Tente novamente.')
           setLoading(false)
           return
         }
-
-        // Step 2: Create stock product
         const stockDto = {
           internalCode: internalCode,
           expirationDate: formData.expiry as string,
@@ -112,9 +103,6 @@ export default function ProductsPage() {
 
         await stockProductService.create(stockDto)
       } else if (selectedProduct) {
-        // Update existing product
-
-        // Step 1: Update catalog entry (name, section, quantity)
         try {
           const catalogDto = {
             name: formData.name as string,
@@ -129,7 +117,6 @@ export default function ProductsPage() {
           return
         }
 
-        // Step 2: Update stock product
         const stockDto = {
           expirationDate: formData.expiry as string,
           unitType: formData.unit as string,
@@ -163,15 +150,12 @@ export default function ProductsPage() {
     if (!selectedProduct) return
 
     try {
-      // Delete from stock products first
       await stockProductService.delete(selectedProduct.id)
 
-      // Then delete from catalog
       await catalogService.delete(selectedProduct.internalCode)
 
       setIsDeleteConfirmOpen(false)
       setIsModalOpen(false)
-      // Refresh the products list
       fetchProducts()
     } catch (err: any) {
       console.error('Erro ao deletar produto:', err)
@@ -179,7 +163,6 @@ export default function ProductsPage() {
     }
   }
 
-  // Helper function to convert priority string to number
   const getPriorityValue = (priority: string): number => {
     switch (priority) {
       case 'Baixa':
@@ -193,7 +176,6 @@ export default function ProductsPage() {
     }
   }
 
-  // Helper function to convert status string to enum
   const getStatusValue = (status: string): StatusEnum => {
     switch (status) {
       case 'Ativo':
@@ -215,13 +197,11 @@ export default function ProductsPage() {
     try {
       let stockProducts
 
-      // If there's a search query, search by internal code
       if (searchQuery.trim()) {
         stockProducts = await stockProductService.getByInternalCode(
           searchQuery.trim()
         )
       } else {
-        // Map tab to status enum
         switch (activeTab) {
           case 'ativos':
             stockProducts = await stockProductService.getByStatus(
@@ -243,7 +223,6 @@ export default function ProductsPage() {
         }
       }
 
-      // Auto-update expired products in the backend
       const today = new Date()
       today.setHours(0, 0, 0, 0)
 
@@ -251,13 +230,11 @@ export default function ProductsPage() {
         const expiryDate = new Date(product.expirationDate)
         expiryDate.setHours(0, 0, 0, 0)
 
-        // If product is expired and still marked as Ativo, update it to Expirado
         if (expiryDate < today && product.status === StatusEnum.Ativo) {
           try {
             await stockProductService.update(product.id, {
               status: StatusEnum.Expirado,
             })
-            // Update the local object to reflect the change
             product.status = StatusEnum.Expirado
           } catch (err) {
             console.error('Erro ao atualizar status de produto expirado:', err)
@@ -265,7 +242,6 @@ export default function ProductsPage() {
         }
       }
 
-      // Map backend response to frontend Product interface
       const mappedProducts = stockProducts.map(mapStockProductToProduct)
       setProducts(mappedProducts)
     } catch (err: any) {
@@ -277,13 +253,11 @@ export default function ProductsPage() {
     }
   }
 
-  // Debounce search to avoid too many API calls
   useEffect(() => {
-    // Only fetch products if user is authenticated
     if (isAuthenticated) {
       const timeoutId = setTimeout(() => {
         fetchProducts()
-      }, 300) // 300ms debounce
+      }, 300)
 
       return () => clearTimeout(timeoutId)
     } else {

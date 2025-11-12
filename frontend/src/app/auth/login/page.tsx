@@ -22,7 +22,6 @@ export default function LoginPage() {
       const response = await authService.login({ email, password })
       console.log('Login bem-sucedido:', response)
 
-      // Use auth context to handle login and JWT token generation
       login(response)
     } catch (err: any) {
       console.error('Erro no login:', err)
