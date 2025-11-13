@@ -1,6 +1,6 @@
 [build]
 builder = "dockerfile"
-dockerfilePath = "Dockerfile"
+dockerfilePath = "ApiVilaTrack/Dockerfile"
 
 [deploy]
 restartPolicyType = "on_failure"
