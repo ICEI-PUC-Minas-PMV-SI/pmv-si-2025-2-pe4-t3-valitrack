@@ -134,13 +134,24 @@ try
         });
 
     Console.WriteLine("Configuring CORS...");
+
+    // Get allowed origins from environment variable or use defaults
+    var allowedOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")?.Split(',')
+        ?? new[] {
+            "http://localhost:3000",
+            "https://localhost:3000"
+        };
+
+    Console.WriteLine($"CORS allowed origins: {string.Join(", ", allowedOrigins)}");
+
     builder.Services.AddCors(options =>
     {
         options.AddPolicy("AllowFrontend", policy =>
         {
-            policy.WithOrigins("http://localhost:3000")
+            policy.WithOrigins(allowedOrigins)
                   .AllowAnyHeader()
-                  .AllowAnyMethod();
+                  .AllowAnyMethod()
+                  .AllowCredentials();
         });
     });
 
