@@ -10,6 +10,30 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
+// Helper method to normalize SQL Server connection string keywords
+static string NormalizeConnectionString(string connectionString)
+{
+    if (string.IsNullOrEmpty(connectionString))
+        return connectionString;
+
+    // Replace common non-standard keywords with SQL Server standard ones
+    var normalized = connectionString
+        .Replace("userid=", "User Id=", StringComparison.OrdinalIgnoreCase)
+        .Replace("user id=", "User Id=", StringComparison.OrdinalIgnoreCase)
+        .Replace("uid=", "User Id=", StringComparison.OrdinalIgnoreCase)
+        .Replace("password=", "Password=", StringComparison.OrdinalIgnoreCase)
+        .Replace("pwd=", "Password=", StringComparison.OrdinalIgnoreCase)
+        .Replace("server=", "Server=", StringComparison.OrdinalIgnoreCase)
+        .Replace("data source=", "Server=", StringComparison.OrdinalIgnoreCase)
+        .Replace("addr=", "Server=", StringComparison.OrdinalIgnoreCase)
+        .Replace("address=", "Server=", StringComparison.OrdinalIgnoreCase)
+        .Replace("network address=", "Server=", StringComparison.OrdinalIgnoreCase)
+        .Replace("database=", "Database=", StringComparison.OrdinalIgnoreCase)
+        .Replace("initial catalog=", "Initial Catalog=", StringComparison.OrdinalIgnoreCase);
+
+    return normalized;
+}
+
 try
 {
     Console.WriteLine("=== Starting ValiTrack API ===");
@@ -54,8 +78,12 @@ try
         Console.WriteLine("Using plain text connection string");
     }
 
+    // Normalize connection string keywords for SQL Server compatibility
+    var normalizedConnStr = NormalizeConnectionString(decryptedConnStr);
+    Console.WriteLine("Connection string normalized for SQL Server");
+
     builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseSqlServer(decryptedConnStr));
+        options.UseSqlServer(normalizedConnStr));
 
     Console.WriteLine("DbContext configured successfully");
 }
