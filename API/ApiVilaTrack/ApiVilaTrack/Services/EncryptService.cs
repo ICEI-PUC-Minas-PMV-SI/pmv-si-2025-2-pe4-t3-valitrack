@@ -36,7 +36,28 @@ namespace ApiVilaTrack.Services
             }
         }
 
-        // Gera par de chaves AES (sim�trica)
+        // Helper method to get key bytes from file or environment variable
+        private byte[] GetKeyBytes(string? keyPath, string envVarName)
+        {
+            // Try environment variable first (for Railway deployment)
+            var envKey = Environment.GetEnvironmentVariable(envVarName);
+            if (!string.IsNullOrEmpty(envKey))
+            {
+                Console.WriteLine($"[EncryptService] Using {envVarName} from environment variable");
+                return Convert.FromBase64String(envKey);
+            }
+
+            // Fall back to file (for local development)
+            if (!string.IsNullOrEmpty(keyPath) && File.Exists(keyPath))
+            {
+                Console.WriteLine($"[EncryptService] Using key from file: {keyPath}");
+                return File.ReadAllBytes(keyPath);
+            }
+
+            throw new FileNotFoundException($"Encryption key not found. Set {envVarName} environment variable or provide key file at {keyPath}");
+        }
+
+        // Gera par de chaves AES (simetrica)
         public void GenerateAndSaveKeys()
         {
             if (string.IsNullOrEmpty(_publicKeyPath) || string.IsNullOrEmpty(_privateKeyPath))
@@ -51,69 +72,56 @@ namespace ApiVilaTrack.Services
                 aes.GenerateKey();
                 aes.GenerateIV();
 
-                // Salva chave e IV em arquivos bin�rios
+                // Salva chave e IV em arquivos binarios
                 File.WriteAllBytes(_publicKeyPath, aes.Key);
                 File.WriteAllBytes(_privateKeyPath, aes.IV);
             }
         }
 
-        // Criptografa texto com AES e chave sim�trica j� existente
+        // Criptografa texto com AES e chave simetrica ja existente
         public byte[] EncryptAES(string plainText)
         {
-            if (string.IsNullOrEmpty(_publicKeyPath) || string.IsNullOrEmpty(_privateKeyPath))
-            {
-                throw new InvalidOperationException("Key paths not configured. Cannot encrypt.");
-            }
-
-            if (!File.Exists(_publicKeyPath) || !File.Exists(_privateKeyPath))
-            {
-                throw new FileNotFoundException("Encryption key files not found. Run GenerateAndSaveKeys first.");
-            }
-
             try
             {
                 using (var aes = Aes.Create())
                 {
-                    // L� chave e IV dos arquivos
-                    aes.Key = File.ReadAllBytes(_publicKeyPath);
-                    aes.IV = File.ReadAllBytes(_privateKeyPath);
+                    // Le chave e IV dos arquivos ou variaveis de ambiente
+                    aes.Key = GetKeyBytes(_publicKeyPath, "AES_KEY");
+                    aes.IV = GetKeyBytes(_privateKeyPath, "AES_IV");
 
                     var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
 
                     byte[] plainBytes = Encoding.UTF8.GetBytes(plainText);
                     byte[] encrypted = encryptor.TransformFinalBlock(plainBytes, 0, plainBytes.Length);
 
-                    return (encrypted);
+                    return encrypted;
                 }
             }
             catch (Exception)
             {
                 throw;
             }
-
         }
 
         // Descriptografa texto com AES
         public string DecryptAES(byte[] cipherText)
         {
-            if (string.IsNullOrEmpty(_publicKeyPath) || string.IsNullOrEmpty(_privateKeyPath))
+            try
             {
-                throw new InvalidOperationException("Key paths not configured. Cannot decrypt.");
+                using (var aes = Aes.Create())
+                {
+                    // Le chave e IV dos arquivos ou variaveis de ambiente
+                    aes.Key = GetKeyBytes(_publicKeyPath, "AES_KEY");
+                    aes.IV = GetKeyBytes(_privateKeyPath, "AES_IV");
+
+                    var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+                    byte[] decrypted = decryptor.TransformFinalBlock(cipherText, 0, cipherText.Length);
+                    return Encoding.UTF8.GetString(decrypted);
+                }
             }
-
-            if (!File.Exists(_publicKeyPath) || !File.Exists(_privateKeyPath))
+            catch (Exception)
             {
-                throw new FileNotFoundException("Decryption key files not found.");
-            }
-
-            using (var aes = Aes.Create())
-            {
-                aes.IV = File.ReadAllBytes(_privateKeyPath);
-                aes.Key = File.ReadAllBytes(_publicKeyPath);
-
-                var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-                byte[] decrypted = decryptor.TransformFinalBlock(cipherText, 0, cipherText.Length);
-                return Encoding.UTF8.GetString(decrypted);
+                throw;
             }
         }
     }
