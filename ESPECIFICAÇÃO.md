@@ -47,6 +47,14 @@ A plataforma web ValiWeb será desenvolvida com o objetivo de permitir que o sup
 | **RNF08** | Os dados devem ser criptografados com criptografia AES (Advanced Encryption Standard). |
 | **RNF09** | O código deve estar adequadamente documentado. |
 
+---
+
+### Diagrama de Casos de Uso
+
+![diagrama-de-casos-de-uso](https://i.imgur.com/PDnm2Pr.png)
+
+---
+
 ### Validação com Parceiro
 Reunião com parceiro para elicitação de requisitos funcionais e não funcionais.
 
