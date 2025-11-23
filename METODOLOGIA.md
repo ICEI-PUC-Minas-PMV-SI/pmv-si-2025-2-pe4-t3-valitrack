@@ -429,3 +429,65 @@ Esse painel permite ao usuário personalizar e refinar as informações exibidas
 - **Tabela Stock_Products:** control_date (para ano e mês de referência).
 
 ![dashboard-filtros](./img/Dashboard%20BI%20-%20Filtros.png)
+
+---
+
+## Dashboard BI – Visão Geral Estratégica (Perdas, Ativos e Categorias Críticas)
+
+Esse painel apresenta métricas gerais e análises estratégicas para tomada de decisões.
+
+### Funcionalidades principais
+- Total de produtos cadastrados, vencidos e ativos;
+- Prejuízo total em produtos;
+- Índice de agressividade de desconto aplicado;
+- Antecedência média de validade do estoque;
+- Ranking de principais produtos perdidos;
+- Comparação entre prejuízo e valor em estoque/vendas;
+- Identificação de categorias críticas.
+
+### Componentes visuais
+- **KPI Cards:** cadastrados, vencidos, ativos, prejuízo, agressividade, antecedência média;
+- **Gráfico de Pizza:** produtos mais perdidos;
+- **Gráfico de Linha/Área:** prejuízo x vendas totais por mês;
+- **Gráfico de Barras:** categorias críticas (100% perda).
+
+![dashboard-visao-estrategica](https://i.imgur.com/AfpOSx8.jpeg)
+
+---
+
+## Dashboard BI – Produtos em Risco
+
+Esse painel destaca produtos próximos ao vencimento e categorias mais vulneráveis a perdas.
+
+### Funcionalidades principais
+- Total de produtos em risco;
+- Percentual de risco sobre o estoque;
+- Comparação entre categorias em risco;
+- Tabela com produtos em alerta e prioridade.
+
+### Componentes visuais
+- **KPI Cards:** produtos em risco, percentual em risco;
+- **Gráfico de Barras Horizontais:** risco por categoria;
+- **Tabela de Produtos em Alerta:** nome, sessão, validade, quantidade, preço, prioridade.
+
+![dashboard-produtos-riscos](https://i.imgur.com/nLrALpB.jpeg)
+---
+
+## Dashboard BI – Monitoramento de Perdas
+
+Esse painel apresenta uma visão consolidada das perdas no período, incluindo valores financeiros, desperdício em quilos e evolução mensal.
+
+### Funcionalidades principais
+- Exibição do valor total de prejuízo (R$);
+- Total desperdiçado em Kg;
+- Quantidade de produtos perdidos;
+- Percentual de prejuízo em relação ao estoque total;
+- Gráfico de evolução das perdas por mês;
+- Tabela detalhada dos produtos perdidos.
+
+### Componentes visuais
+- **KPI Cards:** prejuízo total, desperdício total, quantidade perdida, percentual perdido;
+- **Gráfico de Linha:** evolução de perdas (setembro → novembro);
+- **Tabela de Produtos Perdidos:** nome, sessão, validade, quantidade, preço, promoção.
+
+![dashboard-perdas](https://i.imgur.com/5aJf4Sl.jpeg)
