@@ -8,29 +8,28 @@ A plataforma web ValiWeb será desenvolvida com o objetivo de permitir que o sup
 
 | Código | Descrição |
 |--------|-----------|
-| **RF01** | O sistema deve permitir cadastro manual de produtos identificados como próximos ao vencimento, com os seguintes dados: nome, código de barras, código interno, preço original, preço promocional, preço de custo, quantidade, unidade de medida, data de validade, setor, prioridade e status. |
+| **RF01** | O sistema deve permitir cadastro manual de produtos identificados como próximos ao vencimento, com os seguintes dados: nome, código interno, preço original, preço promocional, preço de custo, quantidade, unidade de medida, data de validade, setor, prioridade e status. |
 | **RF02** | O sistema deve permitir exclusão manual de produtos identificados como próximos ao vencimento. |
 | **RF03** | O sistema deve permitir a visualização de produtos identificados como próximos ao vencimento. |
 | **RF04** | O sistema deve permitir edição manual de produtos identificados como próximos ao vencimento. |
-| **RF05** | O sistema deve permitir o cadastro de usuários. |
+| **RF05** | O sistema deve permitir o gerenciamento de usuários (cadastro, edição e exclusão). |
 | **RF06** | O sistema deve permitir o login de usuários. |
-| **RF07** | O sistema deve permitir o cadastro e o login de um usuário do tipo administrador. |
-| **RF08** | O usuário do tipo administrador deve conseguir cadastrar usuários. |
-| **RF09** | O sistema deve permitir a alteração de status do produto cadastrado, entre: vendido (sucesso), vencido (prejuízo), expirado e ativo. |
-| **RF10** | O sistema deve alterar automaticamente o status de um produto para “expirado” quando atingir um dia após a data de validade inserida para aquele item. |
+| **RF07** | O sistema deve permitir a alteração de status do produto cadastrado, entre: vendido (sucesso), vencido e ativo. |
+| **RF08** | O sistema deve alterar automaticamente o status de um produto para “vencido” quando atingir um dia após a data de validade inserida para aquele item. |
+| **RF09** | O sistema deve permitir ao usuário recuperar sua senha em casos de esquecimento. |
 
 #### Power BI / Data Warehouse:
 
 | Código | Descrição |
 |--------|-----------|
-| **RF11** | O sistema deve realizar o envio de e-mails de alerta ao usuário quando um produto estiver com 7 dias faltantes para o vencimento. |
-| **RF12** | O sistema deve permitir exportação de relatório de produtos cadastrados e que estejam com status “ativo”, em formato xlsx. |
-| **RF13** | O sistema deve permitir filtrar por nome, código de barras e código interno durante a visualização dos dados dos produtos. |
-| **RF14** | O sistema deve permitir ordenar por nome, código de barras, código interno, preço original, preço promocional, preço de custo, quantidade, unidade de medida, data de validade, setor, prioridade e status, durante a visualização dos dados dos produtos. |
-| **RF15** | O sistema deve exibir o valor de prejuízo de mercadorias que não venderam e venceram. |
-| **RF16** | O sistema deve exibir um comparativo de valor de prejuízo por trimestre. |
-| **RF17** | O sistema deve classificar alertas em níveis de prioridade: baixo (verde), médio (amarelo) e alto (vermelho). |
-| **RF18** | O sistema deve exibir alertas visuais no dashboard, informando o produto, prioridade, quantidade em estoque e data de validade. |
+| **RF10** | O sistema deve realizar o envio de e-mails de alerta ao usuário quando um produto estiver com 7 dias faltantes para o vencimento. |
+| **RF11** | O sistema deve permitir exportação de relatório de produtos cadastrados e que estejam com status “ativo”, em formato xlsx. |
+| **RF12** | O sistema deve permitir filtrar por nome e código interno durante a visualização dos dados dos produtos. |
+| **RF13** | O sistema deve permitir ordenar por nome, código interno, preço original, preço promocional, preço de custo, quantidade, unidade de medida, data de validade, setor, prioridade e status, durante a visualização dos dados dos produtos. |
+| **RF14** | O sistema deve exibir o valor de prejuízo de mercadorias que não venderam e venceram. |
+| **RF15** | O sistema deve exibir um comparativo de valor de prejuízo por trimestre. |
+| **RF16** | O sistema deve classificar alertas em níveis de prioridade: baixo (verde), médio (amarelo) e alto (vermelho). |
+| **RF17** | O sistema deve exibir alertas visuais no dashboard, informando o produto, prioridade, quantidade em estoque e data de validade. |
 
 ---
 
