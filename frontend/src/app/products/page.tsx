@@ -291,6 +291,11 @@ export default function ProductsPage() {
               isActive={activeTab === 'vendidos'}
               onClick={() => setActiveTab('vendidos')}
             />
+            <TabButton
+              title="Acessar BI"
+              isActive={activeTab === 'accessBI'}
+              onClick={() => router.push('/dashboard/powerbi')}
+            />
           </div>
 
           <SearchBar
