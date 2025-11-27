@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+**/out/
+**/.vs/
+**/.vscode/
+**/.git/
+**/.gitignore
+**/.DS_Store
+**/node_modules/
+**/test-publish/

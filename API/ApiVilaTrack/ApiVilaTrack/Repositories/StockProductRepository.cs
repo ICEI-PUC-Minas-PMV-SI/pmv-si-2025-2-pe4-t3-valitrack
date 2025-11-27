@@ -33,18 +33,18 @@ public class StockProductRepository
             .FirstOrDefaultAsync(sp => sp.Id == id);
     }
 
-    // Busca todos os produtos em estoque de acordo com o código interno do catálogo
+    // Busca todos os produtos em estoque de acordo com o código interno do catálogo (partial match)
     public async Task<IEnumerable<StockProduct>> GetByInternalCodeAsync(string internalCode)
     {
-        // Sanitiza e valida o código interno
+        // Sanitiza o código interno (permite busca parcial, então não valida formato completo)
         var sanitizedCode = SecurityService.SanitizeString(internalCode);
-        if (!SecurityService.IsSafeInternalCode(sanitizedCode))
-            throw new ArgumentException("Código interno inválido ou contém caracteres perigosos");
 
+        // Busca parcial no código interno OU no nome do produto
         return await _context.StockProducts
             .Include(sp => sp.Catalog)
             .Include(sp => sp.StatusEntity)
-            .Where(sp => sp.InternalCode == sanitizedCode)
+            .Where(sp => sp.InternalCode.Contains(sanitizedCode) ||
+                        (sp.Catalog != null && sp.Catalog.Name.Contains(sanitizedCode)))
             .ToListAsync();
     }
 
@@ -54,7 +54,7 @@ public class StockProductRepository
         return await _context.StockProducts
             .Include(sp => sp.Catalog)
             .Include(sp => sp.StatusEntity)
-            .Where(sp => sp.Status == status)
+            .Where(sp => sp.StatusId == (int)status)
             .ToListAsync();
     }
 
@@ -64,7 +64,7 @@ public class StockProductRepository
         return await _context.StockProducts
             .Include(sp => sp.Catalog)
             .Include(sp => sp.StatusEntity)
-            .Where(sp => sp.ExpirationDate <= expirationDate && sp.Status == StatusEnum.Ativo)
+            .Where(sp => sp.ExpirationDate <= expirationDate && sp.StatusId == (int)StatusEnum.Ativo)
             .OrderBy(sp => sp.ExpirationDate)
             .ToListAsync();
     }
@@ -80,12 +80,9 @@ public class StockProductRepository
         // Validações de segurança
         if (!SecurityService.IsSafeInternalCode(stockProduct.InternalCode))
             throw new ArgumentException("Código interno inválido");
-        
+
         if (!SecurityService.IsSafeUnitType(stockProduct.UnitType))
             throw new ArgumentException("Tipo de unidade inválido");
-        
-        if (!SecurityService.IsSafeUserName(stockProduct.UpdatedBy))
-            throw new ArgumentException("Nome do usuário inválido");
 
         _context.StockProducts.Add(stockProduct);
         await _context.SaveChangesAsync();
@@ -107,12 +104,9 @@ public class StockProductRepository
         // Validações de segurança
         if (!SecurityService.IsSafeInternalCode(stockProduct.InternalCode))
             throw new ArgumentException("Código interno inválido");
-        
+
         if (!SecurityService.IsSafeUnitType(stockProduct.UnitType))
             throw new ArgumentException("Tipo de unidade inválido");
-        
-        if (!SecurityService.IsSafeUserName(stockProduct.UpdatedBy))
-            throw new ArgumentException("Nome do usuário inválido");
 
         existingProduct.InternalCode = stockProduct.InternalCode;
         existingProduct.ExpirationDate = stockProduct.ExpirationDate;

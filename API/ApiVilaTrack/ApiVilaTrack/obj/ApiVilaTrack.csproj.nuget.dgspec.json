@@ -1,33 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\desen\\testcripto\\pmv-si-2025-2-pe4-t3-valitrack\\API\\ApiVilaTrack\\ApiVilaTrack\\ApiVilaTrack.csproj": {}
+    "/Users/marcuspaulooliveira/Documents/Projetos/puc-minas/eixo4/pmv-si-2025-2-pe4-t3-valitrack/API/ApiVilaTrack/ApiVilaTrack/ApiVilaTrack.csproj": {}
   },
   "projects": {
-    "C:\\desen\\testcripto\\pmv-si-2025-2-pe4-t3-valitrack\\API\\ApiVilaTrack\\ApiVilaTrack\\ApiVilaTrack.csproj": {
+    "/Users/marcuspaulooliveira/Documents/Projetos/puc-minas/eixo4/pmv-si-2025-2-pe4-t3-valitrack/API/ApiVilaTrack/ApiVilaTrack/ApiVilaTrack.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\desen\\testcripto\\pmv-si-2025-2-pe4-t3-valitrack\\API\\ApiVilaTrack\\ApiVilaTrack\\ApiVilaTrack.csproj",
+        "projectUniqueName": "/Users/marcuspaulooliveira/Documents/Projetos/puc-minas/eixo4/pmv-si-2025-2-pe4-t3-valitrack/API/ApiVilaTrack/ApiVilaTrack/ApiVilaTrack.csproj",
         "projectName": "ApiVilaTrack",
-        "projectPath": "C:\\desen\\testcripto\\pmv-si-2025-2-pe4-t3-valitrack\\API\\ApiVilaTrack\\ApiVilaTrack\\ApiVilaTrack.csproj",
-        "packagesPath": "C:\\Users\\bernardo.pinto\\.nuget\\packages\\",
-        "outputPath": "C:\\desen\\testcripto\\pmv-si-2025-2-pe4-t3-valitrack\\API\\ApiVilaTrack\\ApiVilaTrack\\obj\\",
+        "projectPath": "/Users/marcuspaulooliveira/Documents/Projetos/puc-minas/eixo4/pmv-si-2025-2-pe4-t3-valitrack/API/ApiVilaTrack/ApiVilaTrack/ApiVilaTrack.csproj",
+        "packagesPath": "/Users/marcuspaulooliveira/.nuget/packages/",
+        "outputPath": "/Users/marcuspaulooliveira/Documents/Projetos/puc-minas/eixo4/pmv-si-2025-2-pe4-t3-valitrack/API/ApiVilaTrack/ApiVilaTrack/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\bernardo.pinto\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/marcuspaulooliveira/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "\\\\192.168.1.5\\seds\\nuget": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -45,8 +37,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "10.0.100"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -82,20 +73,48 @@
           "warn": true,
           "downloadDependencies": [
             {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.20, 8.0.20]"
+              "name": "Microsoft.AspNetCore.App.Runtime.linux-x64",
+              "version": "[8.0.14, 8.0.14]"
+            },
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.osx-arm64",
+              "version": "[8.0.14, 8.0.14]"
+            },
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.osx-x64",
+              "version": "[8.0.14, 8.0.14]"
+            },
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+              "version": "[8.0.14, 8.0.14]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.linux-x64",
+              "version": "[8.0.14, 8.0.14]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.osx-x64",
+              "version": "[8.0.14, 8.0.14]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[8.0.20, 8.0.20]"
+              "version": "[8.0.14, 8.0.14]"
             },
             {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.20, 8.0.20]"
+              "name": "Microsoft.NETCore.App.Runtime.linux-x64",
+              "version": "[8.0.14, 8.0.14]"
             },
             {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.20, 8.0.20]"
+              "name": "Microsoft.NETCore.App.Runtime.osx-arm64",
+              "version": "[8.0.14, 8.0.14]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.osx-x64",
+              "version": "[8.0.14, 8.0.14]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.win-x64",
+              "version": "[8.0.14, 8.0.14]"
             }
           ],
           "frameworkReferences": {
@@ -106,7 +125,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-rc.1.25451.107/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.407/PortableRuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "linux-x64": {
+          "#import": []
+        },
+        "osx-arm64": {
+          "#import": []
+        },
+        "osx-x64": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
         }
       }
     }

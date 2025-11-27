@@ -38,14 +38,14 @@ public class StockProductController : ControllerBase
     }
 
     /// <summary>
-    /// Busca produtos em estoque por código interno
+    /// Busca produtos em estoque por código interno (partial match) ou nome do produto
     /// </summary>
     [HttpGet("by-code/{internalCode}")]
     public async Task<ActionResult<IEnumerable<StockProductResponseDto>>> GetByInternalCode(string internalCode)
     {
-        // Validação de segurança
-        if (string.IsNullOrEmpty(internalCode) || !SecurityService.IsSafeInternalCode(internalCode))
-            return BadRequest("Código interno inválido ou contém caracteres perigosos");
+        // Validação básica (permite busca parcial)
+        if (string.IsNullOrWhiteSpace(internalCode))
+            return BadRequest("Termo de busca não pode ser vazio");
 
         try
         {
@@ -92,12 +92,9 @@ public class StockProductController : ControllerBase
         // Validações de segurança adicionais
         if (!SecurityService.IsSafeInternalCode(dto.InternalCode))
             return BadRequest("Código interno inválido ou contém caracteres perigosos");
-        
+
         if (!SecurityService.IsSafeUnitType(dto.UnitType))
             return BadRequest("Tipo de unidade inválido ou contém caracteres perigosos");
-        
-        if (!SecurityService.IsSafeUserName(dto.UpdatedBy))
-            return BadRequest("Nome do usuário inválido ou contém caracteres perigosos");
 
         if (!SecurityService.IsSafeNumericValue(dto.OriginalPrice))
             return BadRequest("Preço original deve estar entre 0,01 e 999.999,99");
@@ -135,9 +132,6 @@ public class StockProductController : ControllerBase
         // Validações de segurança para campos fornecidos
         if (!string.IsNullOrEmpty(dto.UnitType) && !SecurityService.IsSafeUnitType(dto.UnitType))
             return BadRequest("Tipo de unidade inválido ou contém caracteres perigosos");
-        
-        if (!string.IsNullOrEmpty(dto.UpdatedBy) && !SecurityService.IsSafeUserName(dto.UpdatedBy))
-            return BadRequest("Nome do usuário inválido ou contém caracteres perigosos");
 
         if (dto.OriginalPrice.HasValue && !SecurityService.IsSafeNumericValue(dto.OriginalPrice.Value))
             return BadRequest("Preço original deve estar entre 0,01 e 999.999,99");
