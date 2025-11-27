@@ -28,233 +28,229 @@ Descrição: Os dados transformados são disponibilizados por meio de endpoints/
 ## Documentação dos jobs
 Os jobs de transformação executados por cada módulo seguem uma rotina de atualização diária (a cada 24 horas). Esse intervalo garante que os dados processados e enviados ao Power BI estejam sempre atualizados com as informações mais recentes inseridas no ValiWeb e armazenadas no banco AWS SQL.
 
-## Indicadores de Risco e Validade
 
-Estas medidas focam na identificação preventiva de produtos que estão prestes a expirar.
+## Medidas de Contagem e Quantidade
 
-| **Nome do Job**        | **Descrição do Negócio**                                                                 | **Lógica Técnica (DAX)**                                                                                     |
-|------------------------|-------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| **DiasParaVencer**     | Calcula a contagem de dias entre a data de controle e a data de expiração do produto.     | `DATEDIFF entre ControlDate e ExpirationDate (em dias)`                                                                 |
-| **MediaDiasAntecedencia** | Média global dos dias de antecedência, indicando a eficiência operacional na identificação de produtos. | `AVERAGE da coluna DiasAntecedencia.`                                                                                  |
-| **ProdutosEmRisco**    | Contagem de linhas de produtos que vencem em 30 dias ou menos.                            | `CALCULATE(COUNTROWS) filtrando onde DiasParaVencer <= 30.`                                                         |
-| **ProximosAVencer**    | Contagem de IDs únicos de produtos que vencerão nos próximos 30 dias (intervalo entre Hoje e Hoje+30). | `CALCULATE(COUNT) com filtro de datas dinâmico (TODAY())` |
+| Nome | Regra de Negócio | Lógica Técnica |
+|------|------------------|----------------|
+| **ProdutosVencidos** | Conta quantos produtos únicos estão marcados como vencidos | COUNT na coluna ID filtrando StatusID = 3 |
+| **ProdutosAtivos** | Conta quantos produtos únicos estão marcados como ativos | COUNT na coluna ID filtrando StatusId = 1 |
+| **UnidadesPerdidasSoma** | Conta quantos produtos únicos estão marcados como ativos | Soma a coluna Quantity da tabela relacionada Catalogs onde o status é 3 |
+| **TotalDesperdicado_Kg** | Soma a quantidade total de produtos cuja data de validade já passou (menor que hoje) | Soma a coluna Quantity filtrando ExpirationDate < TODAY() |
+| **Total_Desperdicio_Real** | Calcula a quantidade total de itens com status de perda | Itera (SUMX) sobre a tabela StockProducts somando a quantidade relacionada onde o status é 3 |
 
-### DiasParaVencer
+### Código DAX
 
-```DAX
-DiasParaVencer =
-DATEDIFF(
-    'valitrack stockproducts'[ControlDate],
-    'valitrack stockproducts'[ExpirationDate],
-    DAY
-)
-```
-
-### MediaDiasAntecedencia
-
-```DAX
-DiasAntecedencia =
-DATEDIFF(
-    'valitrack stockproducts'[ControlDate],
-    'valitrack stockproducts'[ExpirationDate],
-    DAY
-)
-```
-```DAX
-MediaDiasAntecedencia =
-AVERAGE('valitrack stockproducts'[DiasAntecedencia])
-```
-
-### ProdutosEmRisco
-```DAX
-ProdutosEmRisco =
+**ProdutosVencidos:**
+```dax
+ProdutosVencidos =
 CALCULATE(
-    COUNTROWS('valitrack stockproducts'),
-    'valitrack stockproducts'[DiasParaVencer] <= 30
+    COUNT('StockProducts'[Id]),
+    'StockProducts'[StatusID] = 3
 )
 ```
 
-### ProximosAVencer
-```DAX
-ProximosAVencer =
+**ProdutosAtivos:**
+```dax
+ProdutosAtivos =
 CALCULATE(
-    COUNT('valitrack stockproducts'[Id]),
-    'valitrack stockproducts'[ExpirationDate] >= TODAY(),
-    'valitrack stockproducts'[ExpirationDate] <= TODAY() + 30
+    COUNT('StockProducts'[Id]),
+    'StockProducts'[StatusId] = 1
 )
 ```
 
-## Indicadores Financeiros (Perdas e Custos)
+**UnidadesPerdidasSoma:**
+```dax
+UnidadesPerdidasSoma =
+CALCULATE(
+    SUM('Catalogs'[Quantity]),
+    'StockProducts'[StatusId] = 3
+)
+```
 
-| **Nome do Job**      | **Descrição do Negócio**                                                                 | **Lógica Técnica (DAX)**                                                                           |
-|----------------------|-------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| **PrejuizoTotal**    | Soma total do valor de custo de todos os produtos que já expiraram (Data de Validade menor que Hoje) | SUMX iterando linha a linha: Se vencido, multiplica Quantidade X Preço de Custo. |
-| **PrejuizoVencidos** | Variação da medida acima, focada especificamente na soma do custo de itens já vencidos.  | CALCULATE(SUMX) filtrando ExpirationDate < TODAY() |
-| **PrejuizoProximosAVencer** | Projeção de perda financeira futura. Soma o custo dos produtos que vencerão nos próximos 30 dias. | CALCULATE(SUMX) filtrando ExpirationDate entre Hoje e Hoje+30. |
-| **PrejuizoPorCategoria**    | Soma do preço de custo de produtos classificados com `StatusId = 1`.                    | CALCULATE(SUM) filtrando StatusId = 1 |
-| **VendasTotais**            | Apesar do nome, calcula o Custo Total dos produtos com `StatusId = 1`.                               | CALCULATE(SUMX) de (Quantidade X Custo) onde StatusId = 1. |
-| **%PrejuizoVencidos** | Calcula o percentual do valor perdido em produtos vencidos em relação ao valor total do estoque atual. Considera todos os produtos cuja data de validade já passou (ExpirationDate < Hoje) e compara o valor financeiro desses itens com o valor total do estoque registrado. | VAR ValorVencidos = CALCULATE(SUM('valitrack stockproducts'[CostPrice]), 'valitrack stockproducts'[ExpirationDate] < TODAY())<br><br>VAR ValorEstoque = [ValorTotalEstoque]<br><br>RETURN DIVIDE(ValorVencidos, ValorEstoque, 0) |
+**TotalDesperdicado_Kg:**
+```dax
+TotalDesperdicado_Kg =
+CALCULATE(
+    SUM('Catalogs'[Quantity]),
+    'StockProducts'[ExpirationDate] < TODAY()
+)
+```
 
-## PrejuizoTotal
+**Total_Desperdicio_Real:**
+```dax
+Total_Desperdicio_Real =
+CALCULATE(
+    SUMX(
+        'StockProducts',
+        RELATED('Catalogs'[Quantity])
+    ),
+    'StockProducts'[StatusId] = 3
+)
+```
 
-```DAX
+---
+
+## Medidas Financeiras (Valores e Prejuízos)
+
+| Nome | Regra de Negócio | Lógica Técnica |
+|------|------------------|----------------|
+| **PrejuizoTotal_Vencidos** | Calcula o valor monetário total dos produtos vencidos | Multiplica Quantidade por CostPrice filtrando StatusID = 3 |
+| **ValorTotalEstoque** | Calcula o valor monetário total do estoque considerado válido | Multiplica Quantidade por CostPrice filtrando StatusId = 2 |
+| **PrejuizoTotal** | Calcula o valor total de perda financeira | Soma condicional (IF) multiplicando Quantity por CostPrice onde status é 3 |
+| **PrejuizoPorCategoria** | Calcula o valor de custo dos produtos ativos | Multiplica Quantidade por Custo filtrando StatusId = 1 |
+| **Prejuizo_EmReais** | Uma referência direta à medida de prejuízo total | Invoca a medida [PrejuizoTotal] |
+
+### Código DAX
+
+**PrejuizoTotal_Vencidos:**
+```dax
+PrejuizoTotal_Vencidos =
+CALCULATE(
+    SUMX(
+        'StockProducts',
+        RELATED('Catalogs'[Quantity]) * 'StockProducts'[CostPrice]
+    ),
+    'StockProducts'[StatusId] = 3
+)
+```
+
+**ValorTotalEstoque:**
+```dax
+ValorTotalEstoque =
+CALCULATE(
+    SUMX(
+        'StockProducts',
+        RELATED('Catalogs'[Quantity]) * 'StockProducts'[CostPrice]
+    ),
+    'StockProducts'[StatusId] = 2
+)
+```
+
+**PrejuizoTotal:**
+```dax
 PrejuizoTotal =
 SUMX(
-    'valitrack stockproducts',
+    'StockProducts',
     IF(
-        'valitrack stockproducts'[ExpirationDate] < TODAY(),
-        RELATED('valitrack catalogs'[Quantity]) *
-        'valitrack stockproducts'[CostPrice],
+        'StockProducts'[StatusId] = 3,
+        RELATED('Catalogs'[Quantity]) * 'StockProducts'[CostPrice],
         0
     )
 )
 ```
-## PrejuizoVencidos
 
-```DAX
-PrejuizoVencidos =
-CALCULATE(
-    SUMX(
-        'valitrack stockproducts',
-        RELATED('valitrack catalogs'[Quantity]) *
-        'valitrack stockproducts'[CostPrice]
-    ),
-    'valitrack stockproducts'[ExpirationDate] < TODAY()
-)
-```
-## PrejuizoProximosAVencer
-
-```DAX
-PrejuizoProximosAVencer =
-CALCULATE(
-    SUMX(
-        'valitrack stockproducts',
-        RELATED('valitrack catalogs'[Quantity]) *
-        'valitrack stockproducts'[CostPrice]
-    ),
-    'valitrack stockproducts'[ExpirationDate] >= TODAY(),
-    'valitrack stockproducts'[ExpirationDate] <= TODAY() + 30
-)
-```
-## PrejuizoPorCategoria
-
-```DAX
+**PrejuizoPorCategoria:**
+```dax
 PrejuizoPorCategoria =
 CALCULATE(
-    SUM('valitrack stockproducts'[CostPrice]),
-    'valitrack stockproducts'[StatusId] = 1
-)
-```
-## VendasTotais
-
-```DAX
-VendasTotais =
-CALCULATE(
     SUMX(
-    'valitrack stockproducts',
-    RELATED('valitrack catalogs'[Quantity]) *
-    'valitrack stockproducts'[CostPrice]
-),
-'valitrack stockproducts'[StatusId] = 1
+        'StockProducts',
+        RELATED('Catalogs'[Quantity]) * 'StockProducts'[CostPrice]
+    ),
+    'StockProducts'[StatusId] = 1
 )
 ```
 
-## %PrejuizoVencidos
+**Prejuizo_EmReais:**
+```dax
+Prejuizo_EmReais = [PrejuizoTotal]
+```
 
-```DAX
-%PrejuizoVencidos =
+---
+
+## Indicadores de Risco e Índices
+
+| Nome | Regra de Negócio | Lógica Técnica |
+|------|------------------|----------------|
+| **IndiceDescontoPercentual** | Calcula a média do desconto aplicado comparando preço original e promocional | Subtrai o total promocional do total original e divide pelo total original. Retorna BLANK se não houver preço original |
+| **IndiceMediaDiasAntecedencia** | Média de dias entre a data de validade e a data de controle | Média (AVERAGEX) da diferença em dias (DATEDIFF) entre ExpirationDate e ControlDate |
+| **Qtd Produtos Risco** | Conta produtos ativos que vencem nos próximos 30 dias | Conta linhas com StatusId = 1 onde a data de validade está entre TODAY() e TODAY() + 30 |
+| **PercentualEmRisco** | Representa a proporção de produtos em risco em relação ao total de produtos | Divide a medida [ProdutosEmRisco] pelo total de linhas da tabela valitrack stockproducts |
+| **% Prejuízo Vencidos** | Mostra quanto do valor total do estoque foi perdido por vencimento (baseado em data) | Divide a soma do custo dos produtos com data expirada (ExpirationDate < TODAY) pelo [ValorTotalEstoque] |
+
+### Código DAX
+
+**IndiceDescontoPercentual:**
+```dax
+IndiceDescontoPercentual =
+VAR Original = SUM('StockProducts'[OriginalPrice])
+VAR Promocional = SUM('StockProducts'[PromotionalPrice])
+RETURN
+IF(
+    NOT ISBLANK(Original) && Original > 0,
+    DIVIDE(Original - Promocional, Original),
+    BLANK()
+)
+```
+
+**IndiceMediaDiasAntecedencia:**
+```dax
+IndiceMediaDiasAntecedencia =
+AVERAGEX(
+    'StockProducts',
+    DATEDIFF(
+        'StockProducts'[ExpirationDate],
+        'StockProducts'[ControlDate],
+        DAY
+    )
+)
+```
+
+**Qtd Produtos Risco:**
+```dax
+Qtd Produtos Risco =
+CALCULATE(
+    COUNTROWS('StockProducts'),
+    'StockProducts'[StatusId] = 1,
+    DATEDIFF(TODAY(), 'StockProducts'[ExpirationDate], DAY) >= 0,
+    DATEDIFF(TODAY(), 'StockProducts'[ExpirationDate], DAY) <= 30
+)
+```
+
+**PercentualEmRisco:**
+```dax
+PercentualEmRisco =
+DIVIDE(
+    [ProdutosEmRisco],
+    COUNTROWS('valitrack stockproducts')
+)
+```
+
+**% Prejuízo Vencidos:**
+```dax
+% Prejuízo Vencidos =
 VAR ValorVencidos =
     CALCULATE(
-        SUM('valitrack stockproducts'[CostPrice]),
-        'valitrack stockproducts'[ExpirationDate] < TODAY()
+        SUM('StockProducts'[CostPrice]),
+        'StockProducts'[ExpirationDate] < TODAY()
     )
-
 VAR ValorEstoque = [ValorTotalEstoque]
-
 RETURN
     DIVIDE(ValorVencidos, ValorEstoque, 0)
 ```
 
-## Gestão de Inventários e Status
+---
 
-| **Nome do Job**      | **Descrição do Negócio**                                                                 | **Lógica Técnica (DAX)**                                                                           |
-|----------------------|-------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| **ProdutosAtivos** | Quantidade de produtos marcados como ativos no sistema `(StatusId = 3)`. | CALCULATE(COUNT) onde StatusId = 3. |
-| **ProdutosInativos** | Quantidade de produtos marcados como inativos ou baixados `(StatusId = 2)`. | CALCULATE(COUNT) onde StatusId = 2. |
-| **UnidadesPerdidas** | Soma da quantidade física de itens que já venceram. | CALCULATE(SUM) da coluna Quantity onde data de validade < Hoje. |
-| **TotalDesperdiçado_Kg** | Calcula o total de peso (em quilogramas) desperdiçado considerando todos os produtos cuja validade já expirou. A soma é feita com base na quantidade cadastrada de cada item cujo vencimento é anterior à data atual. | CALCULATE(SUM('valitrack catalogs'[Quantity]), 'valitrack stockproducts'[ExpirationDate] < TODAY()) |
+## Outros Indicadores
 
-## ProdutosAtivos
+| Nome | Regra de Negócio | Lógica Técnica |
+|------|------------------|----------------|
+| **Status Promoção** | Retorna "SIM" ou "NÃO" para indicar se existe algum valor promocional cadastrado | Se a soma de PromotionalPrice for maior que 0, retorna texto "SIM", senão "NÃO" |
+| **PerdasPorMes** | Parece referenciar uma coluna ou medida existente na tabela Catalogs | Chama 'Catalogs'[PrejuizoTotal] diretamente |
 
-```DAX
-ProdutosAtivos =
-CALCULATE(
-    COUNT('valitrack stockproducts'[Id]),
-    'valitrack stockproducts'[StatusId] = 3
-)
-```
+### Código DAX
 
-## ProdutosInativos
-
-```DAX
-ProdutosInativos =
-CALCULATE(
-    COUNT('valitrack stockproducts'[Id]),
-    'valitrack stockproducts'[StatusId] = 2
-)
-```
-
-## UnidadesPerdidas
-
-```DAX
-UnidadesPerdidas =
-CALCULATE(
-    SUM('valitrack catalogs'[Quantity]),
-    'valitrack stockproducts'[ExpirationDate] < TODAY()
-)
-```
-
-## TotalDesperdicado_Kg
-
-```DAX
-TotalDesperdicado_Kg =
-CALCULATE(
-    SUM('valitrack catalogs'[Quantity]),
-    'valitrack stockproducts'[ExpirationDate] < TODAY()
-)
-```
-
-## Precificação e Descontos
-
-| **Nome do Job**      | **Descrição do Negócio**                                                                 | **Lógica Técnica (DAX)**                                                                           |
-|----------------------|-------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| **DescontoPercentual** | Calcula a % de desconto aplicada. Protege contra erro de divisão por zero caso o preço original seja nulo. | (PreçoOriginal - PreçoPromo) \ PreçoOriginal |
-| **ÍndiceAgressividadeDesconto** | Média dos descontos percentuais aplicados apenas em produtos inativos `(StatusId = 2)`, indicando o quanto o preço foi baixado para tentar vazão. | AVERAGEX filtrando StatusId = 2 e excluindo descontos em branco |
-
-## DescontoPercentual
-
-```DAX
-DescontoPercentual =
-VAR Original = 'valitrack stockproducts'[OriginalPrice]
-VAR Promocional = 'valitrack stockproducts'[PromotionalPrice]
-RETURN
+**Status Promoção:**
+```dax
+Status Promoção =
 IF(
-     NOT ISBLANK(Original) && Original > 0,
-     DIVIDE(Original - Promocional, Original),
-     BLANK()
+    SUM('StockProducts'[PromotionalPrice]) > 0,
+    "SIM",
+    "NÃO"
 )
 ```
 
-## IndiceAgressividadeDesconto
-
-```DAX
-IndiceAgressividadeDesconto =
-AVERAGEX(
-    FILTER(
-       'valitrack stockproducts'
-       'valitrack stockproducts'[StatusId] = 2
-          && NOT ISBLANK('valitrack stockproducts'[DescontoPercentual])
-    ),
-    'valitrack stockproducts'[DescontoPercentual]
-)
-```
+**PerdasPorMes:**
+```dax
+PerdasPorMes = 'Catalogs'[PrejuizoTotal]
